@@ -14,7 +14,7 @@ class ProductDetailsController extends GetxController {
     super.onInit();
     final productIdStr = Get.parameters['id'];
     final productId = int.tryParse(productIdStr ?? '');
-    
+
     if (productId != null) {
       fetchProductDetails(productId);
     } else {

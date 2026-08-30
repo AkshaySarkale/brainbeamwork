@@ -33,17 +33,23 @@ class CategoryView extends GetView<CategoryController> {
           itemBuilder: (context, index) {
             final category = controller.categories[index];
             return GestureDetector(
-              onTap: () => Get.toNamed('${AppRoutes.products}?categoryId=${category.slug}'),
+              onTap: () => Get.toNamed(
+                '${AppRoutes.products}?categoryId=${category.slug}',
+              ),
               child: Card(
                 clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       category.name,
                       textAlign: TextAlign.center,
-                      style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold),
+                      style: AppTextStyles.bodyLarge.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

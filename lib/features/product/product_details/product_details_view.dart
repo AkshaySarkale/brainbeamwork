@@ -17,7 +17,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         title: const Text('Product Details'),
         actions: [
           Obx(() {
-            if (controller.product.value == null) return const SizedBox.shrink();
+            if (controller.product.value == null)
+              return const SizedBox.shrink();
             final product = controller.product.value!;
             final wishlistCtrl = Get.find<WishlistController>();
             final isFav = wishlistCtrl.isWishlisted(product.id);
@@ -52,14 +53,29 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 child: PageView.builder(
                   itemCount: product.images.isEmpty ? 1 : product.images.length,
                   itemBuilder: (context, index) {
-                    final imageUrl = product.images.isEmpty ? product.thumbnail : product.images[index];
+                    final imageUrl = product.images.isEmpty
+                        ? product.thumbnail
+                        : product.images[index];
                     if (imageUrl.isEmpty) {
-                      return const Center(child: Icon(Icons.image_not_supported, size: 60, color: Colors.grey));
+                      return const Center(
+                        child: Icon(
+                          Icons.image_not_supported,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                      );
                     }
                     return Image.network(
                       imageUrl,
                       fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => const Center(child: Icon(Icons.image_not_supported, size: 60, color: Colors.grey)),
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Center(
+                            child: Icon(
+                              Icons.image_not_supported,
+                              size: 60,
+                              color: Colors.grey,
+                            ),
+                          ),
                     );
                   },
                 ),
@@ -69,7 +85,13 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(product.brand, style: TextStyle(color: Colors.grey.shade600, fontSize: 14)),
+                    Text(
+                      product.brand,
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 14,
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     Text(product.title, style: AppTextStyles.heading2),
                     const SizedBox(height: 8),
@@ -77,18 +99,30 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       children: [
                         const Icon(Icons.star, color: Colors.amber, size: 20),
                         const SizedBox(width: 4),
-                        Text('${product.rating}', style: AppTextStyles.bodyLarge),
+                        Text(
+                          '${product.rating}',
+                          style: AppTextStyles.bodyLarge,
+                        ),
                         const Spacer(),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
-                            color: product.stock > 0 ? Colors.green.shade50 : Colors.red.shade50,
+                            color: product.stock > 0
+                                ? Colors.green.shade50
+                                : Colors.red.shade50,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Text(
-                            product.stock > 0 ? 'In Stock (${product.stock})' : 'Out of Stock',
+                            product.stock > 0
+                                ? 'In Stock (${product.stock})'
+                                : 'Out of Stock',
                             style: TextStyle(
-                              color: product.stock > 0 ? Colors.green : Colors.red,
+                              color: product.stock > 0
+                                  ? Colors.green
+                                  : Colors.red,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -101,7 +135,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       children: [
                         Text(
                           '₹${product.displayDiscountPrice.toStringAsFixed(0)}',
-                          style: AppTextStyles.heading1.copyWith(color: AppColors.primary),
+                          style: AppTextStyles.heading1.copyWith(
+                            color: AppColors.primary,
+                          ),
                         ),
                         if (product.discountPercentage > 0) ...[
                           const SizedBox(width: 8),
@@ -115,11 +151,21 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                           ),
                           const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(4)),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                             child: Text(
                               '${product.discountPercentage}% OFF',
-                              style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -138,24 +184,29 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       }),
       bottomNavigationBar: Obx(() {
         if (controller.product.value == null) return const SizedBox.shrink();
-        
+
         final cartController = Get.find<CartController>();
-            
+
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
-            onPressed: controller.product.value!.stock > 0 ? () async {
-              await cartController.addToCart(controller.product.value!);
-            } : null,
+            onPressed: controller.product.value!.stock > 0
+                ? () async {
+                    await cartController.addToCart(controller.product.value!);
+                  }
+                : null,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: cartController.isUpdating.value
-                ? const SizedBox(
-                    height: 20, 
-                    width: 20, 
-                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
-                  )
-                : const Text('Add to Cart'),
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : const Text('Add to Cart'),
             ),
           ),
         );

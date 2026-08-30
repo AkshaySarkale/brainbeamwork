@@ -15,13 +15,22 @@ class ProductResponseModel {
 
   factory ProductResponseModel.fromJson(Map<String, dynamic> json) {
     return ProductResponseModel(
-      products: (json['products'] as List<dynamic>?)
-              ?.map((item) => ProductModel.fromJson(item as Map<String, dynamic>))
+      products:
+          (json['products'] as List<dynamic>?)
+              ?.map(
+                (item) => ProductModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList() ??
           [],
-      total: json['total'] is int ? json['total'] : int.tryParse(json['total']?.toString() ?? '0') ?? 0,
-      skip: json['skip'] is int ? json['skip'] : int.tryParse(json['skip']?.toString() ?? '0') ?? 0,
-      limit: json['limit'] is int ? json['limit'] : int.tryParse(json['limit']?.toString() ?? '0') ?? 0,
+      total: json['total'] is int
+          ? json['total']
+          : int.tryParse(json['total']?.toString() ?? '0') ?? 0,
+      skip: json['skip'] is int
+          ? json['skip']
+          : int.tryParse(json['skip']?.toString() ?? '0') ?? 0,
+      limit: json['limit'] is int
+          ? json['limit']
+          : int.tryParse(json['limit']?.toString() ?? '0') ?? 0,
     );
   }
 }

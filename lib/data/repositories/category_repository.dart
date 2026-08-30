@@ -6,8 +6,10 @@ import '../models/category_model.dart';
 class CategoryRepository {
   Future<List<CategoryModel>> getCategories() async {
     try {
-      final response = await http.get(Uri.parse(ApiConstants.categories)).timeout(const Duration(seconds: 10));
-      
+      final response = await http
+          .get(Uri.parse(ApiConstants.categories))
+          .timeout(const Duration(seconds: 10));
+
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         return data.map((item) => CategoryModel.fromJson(item)).toList();

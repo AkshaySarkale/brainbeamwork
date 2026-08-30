@@ -8,7 +8,7 @@ class CheckoutBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<OrderRepository>(() => OrderRepository(), fenix: true);
-    
+
     // Ensure AddressRepository and AddressController exist before CheckoutController
     if (!Get.isRegistered<AddressRepository>()) {
       Get.lazyPut<AddressRepository>(() => AddressRepository(), fenix: true);
@@ -16,7 +16,7 @@ class CheckoutBinding extends Bindings {
     if (!Get.isRegistered<AddressController>()) {
       Get.lazyPut<AddressController>(() => AddressController(), fenix: true);
     }
-    
+
     Get.lazyPut<CheckoutController>(() => CheckoutController());
   }
 }

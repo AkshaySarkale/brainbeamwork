@@ -27,9 +27,7 @@ class SplashView extends GetView<SplashController> {
               style: AppTextStyles.heading1.copyWith(color: Colors.white),
             ),
             const SizedBox(height: 48),
-            const CircularProgressIndicator(
-              color: Colors.white,
-            ),
+            const CircularProgressIndicator(color: Colors.white),
           ],
         ),
       ),

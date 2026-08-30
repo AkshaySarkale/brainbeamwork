@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppUtils {
-  static void showSnackbar(String title, String message, {bool isError = false}) {
+  static void showSnackbar(
+    String title,
+    String message, {
+    bool isError = false,
+  }) {
     Get.snackbar(
       title,
       message,

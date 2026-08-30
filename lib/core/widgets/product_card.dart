@@ -26,10 +26,20 @@ class ProductCard extends StatelessWidget {
                     color: Colors.white,
                     width: double.infinity,
                     child: Image.network(
-                      product.thumbnail.isNotEmpty ? product.thumbnail : (product.images.isNotEmpty ? product.images.first : ''),
+                      product.thumbnail.isNotEmpty
+                          ? product.thumbnail
+                          : (product.images.isNotEmpty
+                                ? product.images.first
+                                : ''),
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return const Center(child: Icon(Icons.image_not_supported, color: Colors.grey, size: 40));
+                        return const Center(
+                          child: Icon(
+                            Icons.image_not_supported,
+                            color: Colors.grey,
+                            size: 40,
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -76,7 +86,10 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Text(
                         '₹${product.displayDiscountPrice.toStringAsFixed(0)}',
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
                       if (product.discountPercentage > 0) ...[
                         const SizedBox(width: 4),
@@ -98,7 +111,10 @@ class ProductCard extends StatelessWidget {
                       const SizedBox(width: 2),
                       Text(
                         product.rating.toString(),
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),

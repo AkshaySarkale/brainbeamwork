@@ -10,7 +10,9 @@ class OrderSuccessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String orderId = Get.arguments?['orderId'] ?? 'Unknown';
-    final orderIdDisplay = orderId.length > 6 ? orderId.substring(orderId.length - 6).toUpperCase() : orderId;
+    final orderIdDisplay = orderId.length > 6
+        ? orderId.substring(orderId.length - 6).toUpperCase()
+        : orderId;
 
     return Scaffold(
       body: SafeArea(
@@ -31,7 +33,9 @@ class OrderSuccessView extends StatelessWidget {
               Text(
                 'Order #$orderIdDisplay',
                 textAlign: TextAlign.center,
-                style: AppTextStyles.heading2.copyWith(color: AppColors.primary),
+                style: AppTextStyles.heading2.copyWith(
+                  color: AppColors.primary,
+                ),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -49,9 +53,18 @@ class OrderSuccessView extends StatelessWidget {
                 ),
                 child: const Column(
                   children: [
-                    Text('Payment Method', style: TextStyle(color: Colors.grey)),
+                    Text(
+                      'Payment Method',
+                      style: TextStyle(color: Colors.grey),
+                    ),
                     SizedBox(height: 4),
-                    Text('Cash on Delivery', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    Text(
+                      'Cash on Delivery',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                   ],
                 ),
               ),

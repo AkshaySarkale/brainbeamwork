@@ -9,22 +9,30 @@ class AuthRepository {
   final FirebaseFirestore _firestore = Get.find<FirebaseService>().firestore;
 
   Future<UserCredential> login(String email, String password) async {
-    return await _auth.signInWithEmailAndPassword(email: email, password: password);
+    return await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   Future<UserCredential> register(String email, String password) async {
-    return await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    return await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   Future<void> createUserDocument(String uid, String name, String email) async {
     final now = FieldValue.serverTimestamp();
-    await _firestore.collection(FirebaseConstants.usersCollection).doc(uid).set({
-      'uid': uid,
-      'name': name,
-      'email': email,
-      'createdAt': now,
-      'updatedAt': now,
-    });
+    await _firestore.collection(FirebaseConstants.usersCollection).doc(uid).set(
+      {
+        'uid': uid,
+        'name': name,
+        'email': email,
+        'createdAt': now,
+        'updatedAt': now,
+      },
+    );
   }
 
   Future<void> logout() async {

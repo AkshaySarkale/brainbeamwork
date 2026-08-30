@@ -16,10 +16,7 @@ class CategoryShimmerList extends StatelessWidget {
           highlightColor: Colors.grey.shade100,
           child: Column(
             children: [
-              const CircleAvatar(
-                radius: 32,
-                backgroundColor: Colors.white,
-              ),
+              const CircleAvatar(radius: 32, backgroundColor: Colors.white),
               const SizedBox(height: 8),
               Container(
                 width: 60,
@@ -61,9 +58,7 @@ class ProductShimmerGrid extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Container(color: Colors.white),
-                ),
+                Expanded(child: Container(color: Colors.white)),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -119,10 +114,7 @@ class ProductDetailsShimmer extends StatelessWidget {
           Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
             highlightColor: Colors.grey.shade100,
-            child: Container(
-              height: 300,
-              color: Colors.white,
-            ),
+            child: Container(height: 300, color: Colors.white),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -135,7 +127,10 @@ class ProductDetailsShimmer extends StatelessWidget {
                   child: Container(
                     width: 100,
                     height: 14,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -145,7 +140,10 @@ class ProductDetailsShimmer extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     height: 24,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -155,7 +153,10 @@ class ProductDetailsShimmer extends StatelessWidget {
                   child: Container(
                     width: 150,
                     height: 24,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -168,19 +169,28 @@ class ProductDetailsShimmer extends StatelessWidget {
                       Container(
                         width: double.infinity,
                         height: 14,
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Container(
                         width: double.infinity,
                         height: 14,
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Container(
                         width: 200,
                         height: 14,
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                       ),
                     ],
                   ),

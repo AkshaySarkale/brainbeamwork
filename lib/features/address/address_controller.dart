@@ -9,7 +9,7 @@ class AddressController extends GetxController {
 
   final RxList<AddressModel> addresses = <AddressModel>[].obs;
   final Rx<AddressModel?> selectedAddress = Rx<AddressModel?>(null);
-  
+
   final RxBool isLoading = false.obs;
   final RxBool isSaving = false.obs;
   final RxString errorMessage = ''.obs;
@@ -26,10 +26,10 @@ class AddressController extends GetxController {
     try {
       isLoading.value = true;
       errorMessage.value = '';
-      
+
       final fetched = await _addressRepo.getAddresses();
       addresses.assignAll(fetched);
-      
+
       if (addresses.isNotEmpty) {
         final def = addresses.firstWhereOrNull((a) => a.isDefault);
         selectedAddress.value = def ?? addresses.first;
@@ -38,7 +38,11 @@ class AddressController extends GetxController {
       }
     } catch (e) {
       errorMessage.value = 'Failed to load addresses.';
-      AppUtils.showSnackbar('Error', 'Unable to fetch addresses.', isError: true);
+      AppUtils.showSnackbar(
+        'Error',
+        'Unable to fetch addresses.',
+        isError: true,
+      );
     } finally {
       isLoading.value = false;
     }
@@ -48,17 +52,19 @@ class AddressController extends GetxController {
     try {
       isSaving.value = true;
       final isFirstAddress = addresses.isEmpty;
-      final newAddress = address.copyWith(isDefault: isFirstAddress || address.isDefault);
-      
+      final newAddress = address.copyWith(
+        isDefault: isFirstAddress || address.isDefault,
+      );
+
       await _addressRepo.addAddress(newAddress);
-      
+
       if (newAddress.isDefault && !isFirstAddress) {
         // Optimistically update other defaults locally
         for (int i = 0; i < addresses.length; i++) {
           addresses[i] = addresses[i].copyWith(isDefault: false);
         }
       }
-      
+
       await fetchAddresses(); // Re-fetch to get correct IDs
       AppUtils.showSnackbar('Success', 'Address added successfully.');
       Get.back(); // Go back from add address view
@@ -74,14 +80,18 @@ class AddressController extends GetxController {
       isSaving.value = true;
       await _addressRepo.deleteAddress(id);
       addresses.removeWhere((a) => a.id == id);
-      
+
       if (selectedAddress.value?.id == id) {
         selectedAddress.value = addresses.isNotEmpty ? addresses.first : null;
       }
-      
+
       AppUtils.showSnackbar('Success', 'Address deleted.');
     } catch (e) {
-      AppUtils.showSnackbar('Error', 'Failed to delete address.', isError: true);
+      AppUtils.showSnackbar(
+        'Error',
+        'Failed to delete address.',
+        isError: true,
+      );
     } finally {
       isSaving.value = false;
     }
@@ -91,18 +101,22 @@ class AddressController extends GetxController {
     try {
       isSaving.value = true;
       await _addressRepo.setDefaultAddress(id);
-      
+
       for (int i = 0; i < addresses.length; i++) {
         addresses[i] = addresses[i].copyWith(isDefault: addresses[i].id == id);
       }
       addresses.refresh();
-      
+
       final def = addresses.firstWhereOrNull((a) => a.id == id);
       if (def != null) {
         selectedAddress.value = def;
       }
     } catch (e) {
-      AppUtils.showSnackbar('Error', 'Failed to set default address.', isError: true);
+      AppUtils.showSnackbar(
+        'Error',
+        'Failed to set default address.',
+        isError: true,
+      );
     } finally {
       isSaving.value = false;
     }

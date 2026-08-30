@@ -19,7 +19,9 @@ class AddressRepository {
     final collection = _addressCollection;
     if (collection == null) return [];
 
-    final snapshot = await collection.orderBy('createdAt', descending: true).get();
+    final snapshot = await collection
+        .orderBy('createdAt', descending: true)
+        .get();
     return snapshot.docs.map((doc) => AddressModel.fromFirestore(doc)).toList();
   }
 
@@ -49,16 +51,18 @@ class AddressRepository {
     if (collection == null) throw Exception('User not authenticated');
 
     final batch = _firestore.batch();
-    
+
     // Unset current default
-    final currentDefaults = await collection.where('isDefault', isEqualTo: true).get();
+    final currentDefaults = await collection
+        .where('isDefault', isEqualTo: true)
+        .get();
     for (var doc in currentDefaults.docs) {
       batch.update(doc.reference, {'isDefault': false});
     }
 
     // Set new default
     batch.update(collection.doc(addressId), {'isDefault': true});
-    
+
     await batch.commit();
   }
 }

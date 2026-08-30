@@ -6,7 +6,7 @@ import '../auth/auth_controller.dart';
 
 class OrderController extends GetxController {
   final OrderRepository _orderRepo = Get.find<OrderRepository>();
-  
+
   final RxList<OrderModel> orders = <OrderModel>[].obs;
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
@@ -27,7 +27,11 @@ class OrderController extends GetxController {
       orders.assignAll(fetched);
     } catch (e) {
       errorMessage.value = 'Failed to load orders.';
-      AppUtils.showSnackbar('Error', 'Unable to fetch order history.', isError: true);
+      AppUtils.showSnackbar(
+        'Error',
+        'Unable to fetch order history.',
+        isError: true,
+      );
     } finally {
       isLoading.value = false;
     }

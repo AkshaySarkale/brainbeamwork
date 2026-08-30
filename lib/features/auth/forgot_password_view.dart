@@ -18,7 +18,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   void _sendResetEmail() {
     final email = _emailController.text.trim();
     if (!GetUtils.isEmail(email)) {
-      Get.snackbar('Error', 'Please enter a valid email address.', snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white);
+      Get.snackbar(
+        'Error',
+        'Please enter a valid email address.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
     _authController.forgotPassword(email);
@@ -34,15 +40,20 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Enter your email address to receive a password reset link.', style: TextStyle(fontSize: 16)),
+              const Text(
+                'Enter your email address to receive a password reset link.',
+                style: TextStyle(fontSize: 16),
+              ),
               const SizedBox(height: 24),
               AppTextField(hintText: 'Email', controller: _emailController),
               const SizedBox(height: 32),
-              Obx(() => AppButton(
-                text: 'Send Reset Email',
-                isLoading: _authController.isLoading.value,
-                onPressed: _sendResetEmail,
-              )),
+              Obx(
+                () => AppButton(
+                  text: 'Send Reset Email',
+                  isLoading: _authController.isLoading.value,
+                  onPressed: _sendResetEmail,
+                ),
+              ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () => Get.back(),

@@ -19,27 +19,28 @@ class CartRepository {
     final collection = _cartCollection;
     if (collection == null) return [];
 
-    final querySnapshot = await collection.orderBy('addedAt', descending: true).get();
-    return querySnapshot.docs.map((doc) => CartItemModel.fromFirestore(doc)).toList();
+    final querySnapshot = await collection
+        .orderBy('addedAt', descending: true)
+        .get();
+    return querySnapshot.docs
+        .map((doc) => CartItemModel.fromFirestore(doc))
+        .toList();
   }
 
   Future<void> addCartItem(CartItemModel item) async {
     final collection = _cartCollection;
     if (collection == null) throw Exception('User not authenticated');
 
-    await collection.doc(item.productId.toString()).set(
-      item.toFirestore(),
-      SetOptions(merge: true),
-    );
+    await collection
+        .doc(item.productId.toString())
+        .set(item.toFirestore(), SetOptions(merge: true));
   }
 
   Future<void> updateCartItemQuantity(int productId, int quantity) async {
     final collection = _cartCollection;
     if (collection == null) throw Exception('User not authenticated');
 
-    await collection.doc(productId.toString()).update({
-      'quantity': quantity,
-    });
+    await collection.doc(productId.toString()).update({'quantity': quantity});
   }
 
   Future<void> removeCartItem(int productId) async {

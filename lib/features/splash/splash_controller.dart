@@ -11,7 +11,9 @@ class SplashController extends GetxController {
   }
 
   void _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: AppConstants.splashDelaySeconds));
+    await Future.delayed(
+      const Duration(seconds: AppConstants.splashDelaySeconds),
+    );
     final authController = AuthController.instance;
     if (authController.firebaseUser.value != null) {
       Get.offNamed(AppRoutes.home);

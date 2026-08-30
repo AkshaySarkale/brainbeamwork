@@ -19,18 +19,21 @@ class WishlistRepository {
     final collection = _wishlistCollection;
     if (collection == null) return [];
 
-    final querySnapshot = await collection.orderBy('addedAt', descending: true).get();
-    return querySnapshot.docs.map((doc) => WishlistItemModel.fromFirestore(doc)).toList();
+    final querySnapshot = await collection
+        .orderBy('addedAt', descending: true)
+        .get();
+    return querySnapshot.docs
+        .map((doc) => WishlistItemModel.fromFirestore(doc))
+        .toList();
   }
 
   Future<void> addToWishlist(WishlistItemModel item) async {
     final collection = _wishlistCollection;
     if (collection == null) throw Exception('User not authenticated');
 
-    await collection.doc(item.productId.toString()).set(
-      item.toFirestore(),
-      SetOptions(merge: true),
-    );
+    await collection
+        .doc(item.productId.toString())
+        .set(item.toFirestore(), SetOptions(merge: true));
   }
 
   Future<void> removeFromWishlist(int productId) async {

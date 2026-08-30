@@ -27,7 +27,9 @@ class OrderRepository {
     final collection = _ordersCollection;
     if (collection == null) return [];
 
-    final snapshot = await collection.orderBy('createdAt', descending: true).get();
+    final snapshot = await collection
+        .orderBy('createdAt', descending: true)
+        .get();
     return snapshot.docs.map((doc) => OrderModel.fromFirestore(doc)).toList();
   }
 

@@ -57,7 +57,9 @@ class AddressModel {
       'postalCode': postalCode,
       if (landmark != null) 'landmark': landmark,
       'isDefault': isDefault,
-      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : FieldValue.serverTimestamp(),
+      'createdAt': createdAt != null
+          ? Timestamp.fromDate(createdAt!)
+          : FieldValue.serverTimestamp(),
     };
   }
 

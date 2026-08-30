@@ -6,6 +6,7 @@ import '../../app/routes/app_routes.dart';
 import '../../app/theme/app_text_styles.dart';
 import '../../app/theme/app_colors.dart';
 import '../../data/models/product_model.dart';
+import '../../core/widgets/app_empty_state.dart';
 
 class WishlistView extends GetView<WishlistController> {
   const WishlistView({super.key});
@@ -32,7 +33,10 @@ class WishlistView extends GetView<WishlistController> {
                     },
                   );
                 },
-                child: const Text('Clear All', style: TextStyle(color: Colors.red)),
+                child: const Text(
+                  'Clear All',
+                  style: TextStyle(color: Colors.red),
+                ),
               );
             }
             return const SizedBox.shrink();
@@ -45,22 +49,12 @@ class WishlistView extends GetView<WishlistController> {
         }
 
         if (controller.wishlistItems.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.favorite, size: 80, color: Colors.redAccent),
-                const SizedBox(height: 16),
-                const Text('Your wishlist is empty.', style: AppTextStyles.heading2),
-                const SizedBox(height: 8),
-                const Text('Save products you love and find them here later.', style: AppTextStyles.bodyMedium, textAlign: TextAlign.center),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () => Get.offNamed(AppRoutes.products),
-                  child: const Text('Continue Shopping'),
-                ),
-              ],
-            ),
+          return AppEmptyState(
+            icon: Icons.favorite_outline,
+            title: 'Your wishlist is empty',
+            message: 'Save products you love and find them here later.',
+            buttonText: 'Continue Shopping',
+            onButtonPressed: () => Get.offNamed(AppRoutes.products),
           );
         }
 
@@ -71,7 +65,9 @@ class WishlistView extends GetView<WishlistController> {
           itemBuilder: (context, index) {
             final item = controller.wishlistItems[index];
             return GestureDetector(
-              onTap: () => Get.toNamed('${AppRoutes.productDetails}?id=${item.productId}'),
+              onTap: () => Get.toNamed(
+                '${AppRoutes.productDetails}?id=${item.productId}',
+              ),
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -88,7 +84,11 @@ class WishlistView extends GetView<WishlistController> {
                         width: 80,
                         height: 80,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Container(width: 80, height: 80, color: Colors.grey.shade200),
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          width: 80,
+                          height: 80,
+                          color: Colors.grey.shade200,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -101,24 +101,41 @@ class WishlistView extends GetView<WishlistController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
-                                child: Text(item.title, style: AppTextStyles.heading2, maxLines: 2, overflow: TextOverflow.ellipsis),
+                                child: Text(
+                                  item.title,
+                                  style: AppTextStyles.heading2,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                               IconButton(
                                 padding: EdgeInsets.zero,
                                 constraints: const BoxConstraints(),
-                                icon: const Icon(Icons.delete_outline, color: Colors.red),
-                                onPressed: () => controller.removeByProductId(item.productId),
+                                icon: const Icon(
+                                  Icons.delete_outline,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () => controller.removeByProductId(
+                                  item.productId,
+                                ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 8),
-                          Text('₹${item.price.toStringAsFixed(0)}', style: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold, color: AppColors.primary)),
+                          Text(
+                            '₹${item.price.toStringAsFixed(0)}',
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primary,
+                            ),
+                          ),
                           const SizedBox(height: 12),
                           SizedBox(
                             width: double.infinity,
                             child: OutlinedButton(
                               onPressed: () {
-                                final cartController = Get.find<CartController>();
+                                final cartController =
+                                    Get.find<CartController>();
                                 // Convert WishlistItem to a mock ProductModel structure just for the cart
                                 // The CartController requires a ProductModel, so we fabricate the required fields
                                 final mockProduct = ProductModel(
@@ -127,7 +144,8 @@ class WishlistView extends GetView<WishlistController> {
                                   price: item.price,
                                   discountPercentage: 0,
                                   rating: 0,
-                                  stock: 99, // default arbitrary safe stock for dummy cart add
+                                  stock:
+                                      99, // default arbitrary safe stock for dummy cart add
                                   brand: '',
                                   category: '',
                                   thumbnail: item.thumbnail,

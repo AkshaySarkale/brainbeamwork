@@ -7,6 +7,8 @@ import '../../data/repositories/wishlist_repository.dart';
 import '../../features/wishlist/wishlist_controller.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../features/profile/profile_controller.dart';
+import '../../data/repositories/notification_repository.dart';
+import '../../features/notification/notification_controller.dart';
 
 class InitialBinding extends Bindings {
   @override
@@ -19,5 +21,7 @@ class InitialBinding extends Bindings {
     Get.lazyPut<WishlistController>(() => WishlistController(), fenix: true);
     Get.lazyPut<UserRepository>(() => UserRepository(), fenix: true);
     Get.lazyPut<ProfileController>(() => ProfileController(), fenix: true);
+    Get.put<NotificationRepository>(NotificationRepository(), permanent: true);
+    Get.put<NotificationController>(NotificationController(), permanent: true);
   }
 }

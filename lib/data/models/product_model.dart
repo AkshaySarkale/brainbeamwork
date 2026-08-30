@@ -27,17 +27,25 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'] is int ? json['id'] : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
+      id: json['id'] is int
+          ? json['id']
+          : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
       title: json['title']?.toString() ?? '',
       description: json['description']?.toString() ?? '',
       category: json['category']?.toString() ?? '',
       price: _parseDouble(json['price']),
       discountPercentage: _parseDouble(json['discountPercentage']),
       rating: _parseDouble(json['rating']),
-      stock: json['stock'] is int ? json['stock'] : int.tryParse(json['stock']?.toString() ?? '0') ?? 0,
+      stock: json['stock'] is int
+          ? json['stock']
+          : int.tryParse(json['stock']?.toString() ?? '0') ?? 0,
       brand: json['brand']?.toString() ?? '',
       thumbnail: json['thumbnail']?.toString() ?? '',
-      images: (json['images'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
+      images:
+          (json['images'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
     );
   }
 
@@ -49,7 +57,7 @@ class ProductModel {
 
   double get displayDiscountPrice {
     if (discountPercentage <= 0) return price;
-    // DummyJSON discountPercentage is the % OFF. 
+    // DummyJSON discountPercentage is the % OFF.
     // e.g. price 1000, 20% off -> actual price you pay is 1000 * (1 - 0.20) = 800
     return price * (1 - (discountPercentage / 100));
   }

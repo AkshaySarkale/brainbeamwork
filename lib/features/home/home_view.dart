@@ -7,6 +7,7 @@ import '../category/category_controller.dart';
 import '../cart/cart_controller.dart';
 import '../wishlist/wishlist_controller.dart';
 import '../profile/profile_controller.dart';
+import '../notification/notification_controller.dart';
 import '../../data/repositories/product_repository.dart';
 import '../../data/models/product_model.dart';
 import '../../core/widgets/product_card.dart';
@@ -21,9 +22,12 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final CategoryController catController = Get.isRegistered<CategoryController>() ? Get.find<CategoryController>() : Get.put(CategoryController());
+  final CategoryController catController =
+      Get.isRegistered<CategoryController>()
+      ? Get.find<CategoryController>()
+      : Get.put(CategoryController());
   final AuthController auth = AuthController.instance;
-  
+
   bool isLoadingFeatured = true;
   List<ProductModel> featuredProducts = [];
 
@@ -35,7 +39,9 @@ class _HomeViewState extends State<HomeView> {
 
   Future<void> _loadFeaturedProducts() async {
     try {
-      final repo = Get.isRegistered<ProductRepository>() ? Get.find<ProductRepository>() : ProductRepository();
+      final repo = Get.isRegistered<ProductRepository>()
+          ? Get.find<ProductRepository>()
+          : ProductRepository();
       final response = await repo.getProducts(limit: 6, skip: 0);
       if (mounted) {
         setState(() {
@@ -60,20 +66,75 @@ class _HomeViewState extends State<HomeView> {
             icon: Stack(
               clipBehavior: Clip.none,
               children: [
-                const Icon(Icons.favorite_border),
+                const Icon(Icons.notifications_none),
                 Obx(() {
-                  final wishlistCtrl = Get.find<WishlistController>();
-                  if (wishlistCtrl.wishlistItems.isEmpty) return const SizedBox.shrink();
+                  if (!Get.isRegistered<NotificationController>())
+                    return const SizedBox.shrink();
+                  final notifCtrl = Get.find<NotificationController>();
+                  if (notifCtrl.unreadCount == 0)
+                    return const SizedBox.shrink();
+
+                  final countText = notifCtrl.unreadCount > 99
+                      ? '99+'
+                      : '${notifCtrl.unreadCount}';
                   return Positioned(
                     right: -4,
                     top: -4,
                     child: Container(
                       padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                      constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 18,
+                        minHeight: 18,
+                      ),
+                      child: Text(
+                        countText,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
+            onPressed: () => Get.toNamed(AppRoutes.notifications),
+          ),
+          IconButton(
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(Icons.favorite_border),
+                Obx(() {
+                  final wishlistCtrl = Get.find<WishlistController>();
+                  if (wishlistCtrl.wishlistItems.isEmpty)
+                    return const SizedBox.shrink();
+                  return Positioned(
+                    right: -4,
+                    top: -4,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 18,
+                        minHeight: 18,
+                      ),
                       child: Text(
                         '${wishlistCtrl.wishlistItems.length}',
-                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -90,7 +151,8 @@ class _HomeViewState extends State<HomeView> {
                 const Icon(Icons.shopping_cart),
                 Obx(() {
                   final cartController = Get.find<CartController>();
-                  if (cartController.totalItemCount == 0) return const SizedBox.shrink();
+                  if (cartController.totalItemCount == 0)
+                    return const SizedBox.shrink();
                   return Positioned(
                     right: -4,
                     top: -4,
@@ -100,10 +162,17 @@ class _HomeViewState extends State<HomeView> {
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
-                      constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                      constraints: const BoxConstraints(
+                        minWidth: 18,
+                        minHeight: 18,
+                      ),
                       child: Text(
                         '${cartController.totalItemCount}',
-                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -127,8 +196,12 @@ class _HomeViewState extends State<HomeView> {
             children: [
               Obx(() {
                 final profileCtrl = Get.find<ProfileController>();
-                final name = profileCtrl.userModel.value?.name ?? auth.firebaseUser.value?.displayName;
-                final display = (name != null && name.isNotEmpty) ? name : 'Guest';
+                final name =
+                    profileCtrl.userModel.value?.name ??
+                    auth.firebaseUser.value?.displayName;
+                final display = (name != null && name.isNotEmpty)
+                    ? name
+                    : 'Guest';
                 return Text(
                   'Good morning, $display 👋',
                   style: AppTextStyles.heading1,
@@ -138,7 +211,10 @@ class _HomeViewState extends State<HomeView> {
               GestureDetector(
                 onTap: () => Get.toNamed(AppRoutes.products),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -148,7 +224,10 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       Icon(Icons.search, color: Colors.grey),
                       SizedBox(width: 8),
-                      Text('Search products...', style: TextStyle(color: Colors.grey)),
+                      Text(
+                        'Search products...',
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     ],
                   ),
                 ),
@@ -172,25 +251,42 @@ class _HomeViewState extends State<HomeView> {
                     return const CategoryShimmerList();
                   }
                   if (catController.categories.isEmpty) {
-                    return const Center(child: Text('No categories available.'));
+                    return const Center(
+                      child: Text('No categories available.'),
+                    );
                   }
                   return ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: catController.categories.length,
-                    separatorBuilder: (context, index) => const SizedBox(width: 12),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 12),
                     itemBuilder: (context, index) {
                       final category = catController.categories[index];
                       return GestureDetector(
-                        onTap: () => Get.toNamed('${AppRoutes.products}?categoryId=${category.slug}'),
+                        onTap: () => Get.toNamed(
+                          '${AppRoutes.products}?categoryId=${category.slug}',
+                        ),
                         child: Column(
                           children: [
                             CircleAvatar(
                               radius: 32,
                               backgroundColor: Colors.grey.shade200,
-                              child: Text(category.name[0].toUpperCase(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.grey)),
+                              child: Text(
+                                category.name[0].toUpperCase(),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                  color: Colors.grey,
+                                ),
+                              ),
                             ),
                             const SizedBox(height: 8),
-                            Text(category.name.length > 10 ? '${category.name.substring(0,8)}...' : category.name, style: AppTextStyles.bodyMedium),
+                            Text(
+                              category.name.length > 10
+                                  ? '${category.name.substring(0, 8)}...'
+                                  : category.name,
+                              style: AppTextStyles.bodyMedium,
+                            ),
                           ],
                         ),
                       );

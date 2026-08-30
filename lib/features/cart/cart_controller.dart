@@ -7,7 +7,7 @@ import '../auth/auth_controller.dart';
 
 class CartController extends GetxController {
   final CartRepository _cartRepo = Get.find<CartRepository>();
-  
+
   final RxList<CartItemModel> cartItems = <CartItemModel>[].obs;
   final RxBool isLoading = false.obs;
   final RxBool isUpdating = false.obs;
@@ -30,9 +30,11 @@ class CartController extends GetxController {
     }
   }
 
-  int get totalItemCount => cartItems.fold(0, (sum, item) => sum + item.quantity);
+  int get totalItemCount =>
+      cartItems.fold(0, (sum, item) => sum + item.quantity);
 
-  double get subtotal => cartItems.fold(0.0, (sum, item) => sum + (item.price * item.quantity));
+  double get subtotal =>
+      cartItems.fold(0.0, (sum, item) => sum + (item.price * item.quantity));
 
   double get deliveryFee => subtotal > 0 && subtotal < 500 ? 50.0 : 0.0;
 
@@ -46,7 +48,11 @@ class CartController extends GetxController {
       cartItems.assignAll(items);
     } catch (e) {
       errorMessage.value = 'Failed to load cart: $e';
-      AppUtils.showSnackbar('Error', 'Failed to load cart data.', isError: true);
+      AppUtils.showSnackbar(
+        'Error',
+        'Failed to load cart data.',
+        isError: true,
+      );
     } finally {
       isLoading.value = false;
     }
@@ -54,27 +60,41 @@ class CartController extends GetxController {
 
   Future<void> addToCart(ProductModel product) async {
     if (Get.find<AuthController>().firebaseUser.value == null) {
-      AppUtils.showSnackbar('Authentication Required', 'Please login to add items to cart.', isError: true);
+      AppUtils.showSnackbar(
+        'Authentication Required',
+        'Please login to add items to cart.',
+        isError: true,
+      );
       return;
     }
 
     try {
       isUpdating.value = true;
-      final existingIndex = cartItems.indexWhere((item) => item.productId == product.id);
+      final existingIndex = cartItems.indexWhere(
+        (item) => item.productId == product.id,
+      );
 
       if (existingIndex != -1) {
         final existingItem = cartItems[existingIndex];
         if (existingItem.quantity >= product.stock) {
-          AppUtils.showSnackbar('Stock Limit Exceeded', 'Only ${product.stock} items are available.', isError: true);
+          AppUtils.showSnackbar(
+            'Stock Limit Exceeded',
+            'Only ${product.stock} items are available.',
+            isError: true,
+          );
           return;
         }
         await increaseQuantity(existingItem, stock: product.stock);
       } else {
         if (product.stock < 1) {
-          AppUtils.showSnackbar('Out of Stock', 'This item is currently out of stock.', isError: true);
+          AppUtils.showSnackbar(
+            'Out of Stock',
+            'This item is currently out of stock.',
+            isError: true,
+          );
           return;
         }
-        
+
         final newItem = CartItemModel(
           productId: product.id,
           title: product.title,
@@ -89,7 +109,11 @@ class CartController extends GetxController {
         AppUtils.showSnackbar('Success', 'Product added to cart.');
       }
     } catch (e) {
-      AppUtils.showSnackbar('Error', 'Unable to add to cart. $e', isError: true);
+      AppUtils.showSnackbar(
+        'Error',
+        'Unable to add to cart. $e',
+        isError: true,
+      );
     } finally {
       isUpdating.value = false;
     }
@@ -98,16 +122,20 @@ class CartController extends GetxController {
   Future<void> increaseQuantity(CartItemModel item, {int? stock}) async {
     try {
       isUpdating.value = true;
-      
+
       // Basic stock validation if passed
       if (stock != null && item.quantity >= stock) {
-        AppUtils.showSnackbar('Stock Limit Exceeded', 'Only $stock items are available.', isError: true);
+        AppUtils.showSnackbar(
+          'Stock Limit Exceeded',
+          'Only $stock items are available.',
+          isError: true,
+        );
         return;
       }
 
       final newQuantity = item.quantity + 1;
       await _cartRepo.updateCartItemQuantity(item.productId, newQuantity);
-      
+
       final index = cartItems.indexWhere((e) => e.productId == item.productId);
       if (index != -1) {
         cartItems[index] = item.copyWith(quantity: newQuantity);
@@ -123,12 +151,14 @@ class CartController extends GetxController {
     try {
       isUpdating.value = true;
       final newQuantity = item.quantity - 1;
-      
+
       if (newQuantity <= 0) {
         await removeItem(item);
       } else {
         await _cartRepo.updateCartItemQuantity(item.productId, newQuantity);
-        final index = cartItems.indexWhere((e) => e.productId == item.productId);
+        final index = cartItems.indexWhere(
+          (e) => e.productId == item.productId,
+        );
         if (index != -1) {
           cartItems[index] = item.copyWith(quantity: newQuantity);
         }

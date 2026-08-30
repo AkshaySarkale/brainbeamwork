@@ -39,7 +39,9 @@ class CartItemModel {
       'price': price,
       'thumbnail': thumbnail,
       'quantity': quantity,
-      'addedAt': addedAt != null ? Timestamp.fromDate(addedAt!) : FieldValue.serverTimestamp(),
+      'addedAt': addedAt != null
+          ? Timestamp.fromDate(addedAt!)
+          : FieldValue.serverTimestamp(),
     };
   }
 

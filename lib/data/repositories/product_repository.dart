@@ -5,10 +5,15 @@ import '../models/product_model.dart';
 import '../models/product_response_model.dart';
 
 class ProductRepository {
-  Future<ProductResponseModel> getProducts({int limit = 10, int skip = 0}) async {
+  Future<ProductResponseModel> getProducts({
+    int limit = 10,
+    int skip = 0,
+  }) async {
     try {
       final url = '${ApiConstants.products}?limit=$limit&skip=$skip';
-      final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
+      final response = await http
+          .get(Uri.parse(url))
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         return ProductResponseModel.fromJson(json.decode(response.body));
@@ -20,10 +25,17 @@ class ProductRepository {
     }
   }
 
-  Future<ProductResponseModel> getProductsByCategory({required String category, int limit = 10, int skip = 0}) async {
+  Future<ProductResponseModel> getProductsByCategory({
+    required String category,
+    int limit = 10,
+    int skip = 0,
+  }) async {
     try {
-      final url = '${ApiConstants.productsByCategory(category)}?limit=$limit&skip=$skip';
-      final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
+      final url =
+          '${ApiConstants.productsByCategory(category)}?limit=$limit&skip=$skip';
+      final response = await http
+          .get(Uri.parse(url))
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         return ProductResponseModel.fromJson(json.decode(response.body));
@@ -35,11 +47,18 @@ class ProductRepository {
     }
   }
 
-  Future<ProductResponseModel> searchProducts({required String query, int limit = 10, int skip = 0}) async {
+  Future<ProductResponseModel> searchProducts({
+    required String query,
+    int limit = 10,
+    int skip = 0,
+  }) async {
     try {
       final encodedQuery = Uri.encodeComponent(query);
-      final url = '${ApiConstants.productSearch}?q=$encodedQuery&limit=$limit&skip=$skip';
-      final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
+      final url =
+          '${ApiConstants.productSearch}?q=$encodedQuery&limit=$limit&skip=$skip';
+      final response = await http
+          .get(Uri.parse(url))
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         return ProductResponseModel.fromJson(json.decode(response.body));
@@ -54,7 +73,9 @@ class ProductRepository {
   Future<ProductModel?> getProductById(int productId) async {
     try {
       final url = '${ApiConstants.products}/$productId';
-      final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
+      final response = await http
+          .get(Uri.parse(url))
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         return ProductModel.fromJson(json.decode(response.body));

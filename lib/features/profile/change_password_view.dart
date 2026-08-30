@@ -14,9 +14,11 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   final ProfileController controller = Get.find<ProfileController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -46,38 +48,50 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Current Password', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                'Current Password',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 8),
               AppTextField(
                 hintText: 'Enter current password',
                 controller: _currentPasswordController,
                 obscureText: true,
                 validator: (val) {
-                  if (val == null || val.isEmpty) return 'Current password is required';
+                  if (val == null || val.isEmpty)
+                    return 'Current password is required';
                   return null;
                 },
               ),
               const SizedBox(height: 24),
-              const Text('New Password', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                'New Password',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 8),
               AppTextField(
                 hintText: 'Enter new password',
                 controller: _newPasswordController,
                 obscureText: true,
                 validator: (val) {
-                  if (val == null || val.length < 6) return 'Password must be at least 6 characters.';
+                  if (val == null || val.length < 6)
+                    return 'Password must be at least 6 characters.';
                   return null;
                 },
               ),
               const SizedBox(height: 24),
-              const Text('Confirm New Password', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                'Confirm New Password',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 8),
               AppTextField(
                 hintText: 'Re-enter new password',
                 controller: _confirmPasswordController,
                 obscureText: true,
                 validator: (val) {
-                  if (val != _newPasswordController.text) return 'New passwords do not match.';
+                  if (val != _newPasswordController.text)
+                    return 'New passwords do not match.';
                   return null;
                 },
               ),

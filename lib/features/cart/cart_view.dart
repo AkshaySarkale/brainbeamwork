@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'cart_controller.dart';
 import '../../app/routes/app_routes.dart';
-import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_text_styles.dart';
+import '../../app/theme/app_colors.dart';
+import '../../core/widgets/app_empty_state.dart';
 
 class CartView extends GetView<CartController> {
   const CartView({super.key});
@@ -41,23 +42,12 @@ class CartView extends GetView<CartController> {
         }
 
         if (controller.cartItems.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('🛒', style: TextStyle(fontSize: 80)),
-                const SizedBox(height: 16),
-                const Text('Your cart is empty.', style: AppTextStyles.heading2),
-                const SizedBox(height: 8),
-                const Text('Add products to your cart and they will appear here.', 
-                  style: AppTextStyles.bodyMedium, textAlign: TextAlign.center),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () => Get.offNamed(AppRoutes.products),
-                  child: const Text('Continue Shopping'),
-                ),
-              ],
-            ),
+          return AppEmptyState(
+            icon: Icons.shopping_cart_outlined,
+            title: 'Your cart is empty',
+            message: 'Add products to your cart and they will appear here.',
+            buttonText: 'Continue Shopping',
+            onButtonPressed: () => Get.offNamed(AppRoutes.products),
           );
         }
 
@@ -69,7 +59,8 @@ class CartView extends GetView<CartController> {
                   child: ListView.separated(
                     padding: const EdgeInsets.all(16.0),
                     itemCount: controller.cartItems.length,
-                    separatorBuilder: (context, index) => const SizedBox(height: 12),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 12),
                     itemBuilder: (context, index) {
                       final item = controller.cartItems[index];
                       return Container(
@@ -89,12 +80,16 @@ class CartView extends GetView<CartController> {
                                 width: 80,
                                 height: 80,
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => Container(
-                                  width: 80,
-                                  height: 80,
-                                  color: Colors.grey.shade200,
-                                  child: const Icon(Icons.image_not_supported, color: Colors.grey),
-                                ),
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Container(
+                                      width: 80,
+                                      height: 80,
+                                      color: Colors.grey.shade200,
+                                      child: const Icon(
+                                        Icons.image_not_supported,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -104,45 +99,84 @@ class CartView extends GetView<CartController> {
                                 children: [
                                   Text(
                                     item.title,
-                                    style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold),
+                                    style: AppTextStyles.bodyLarge.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
                                     '₹${item.price.toStringAsFixed(0)}',
-                                    style: AppTextStyles.bodyMedium.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                                    style: AppTextStyles.bodyMedium.copyWith(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   const SizedBox(height: 8),
                                   Row(
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey.shade300),
-                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: Colors.grey.shade300,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                         ),
                                         child: Row(
                                           children: [
                                             IconButton(
-                                              icon: const Icon(Icons.remove, size: 16),
-                                              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                                              icon: const Icon(
+                                                Icons.remove,
+                                                size: 16,
+                                              ),
+                                              constraints: const BoxConstraints(
+                                                minWidth: 32,
+                                                minHeight: 32,
+                                              ),
                                               padding: EdgeInsets.zero,
-                                              onPressed: controller.isUpdating.value ? null : () => controller.decreaseQuantity(item),
+                                              onPressed:
+                                                  controller.isUpdating.value
+                                                  ? null
+                                                  : () => controller
+                                                        .decreaseQuantity(item),
                                             ),
-                                            Text('${item.quantity}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                            Text(
+                                              '${item.quantity}',
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                             IconButton(
-                                              icon: const Icon(Icons.add, size: 16),
-                                              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                                              icon: const Icon(
+                                                Icons.add,
+                                                size: 16,
+                                              ),
+                                              constraints: const BoxConstraints(
+                                                minWidth: 32,
+                                                minHeight: 32,
+                                              ),
                                               padding: EdgeInsets.zero,
-                                              onPressed: controller.isUpdating.value ? null : () => controller.increaseQuantity(item),
+                                              onPressed:
+                                                  controller.isUpdating.value
+                                                  ? null
+                                                  : () => controller
+                                                        .increaseQuantity(item),
                                             ),
                                           ],
                                         ),
                                       ),
                                       const Spacer(),
                                       IconButton(
-                                        icon: const Icon(Icons.delete_outline, color: Colors.red),
-                                        onPressed: controller.isUpdating.value ? null : () => controller.removeItem(item),
+                                        icon: const Icon(
+                                          Icons.delete_outline,
+                                          color: Colors.red,
+                                        ),
+                                        onPressed: controller.isUpdating.value
+                                            ? null
+                                            : () => controller.removeItem(item),
                                       ),
                                     ],
                                   ),
@@ -174,16 +208,30 @@ class CartView extends GetView<CartController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Subtotal', style: AppTextStyles.bodyMedium),
-                            Text('₹${controller.subtotal.toStringAsFixed(0)}', style: AppTextStyles.bodyMedium),
+                            const Text(
+                              'Subtotal',
+                              style: AppTextStyles.bodyMedium,
+                            ),
+                            Text(
+                              '₹${controller.subtotal.toStringAsFixed(0)}',
+                              style: AppTextStyles.bodyMedium,
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Delivery', style: AppTextStyles.bodyMedium),
-                            Text(controller.deliveryFee == 0 ? 'Free' : '₹${controller.deliveryFee.toStringAsFixed(0)}', style: AppTextStyles.bodyMedium),
+                            const Text(
+                              'Delivery',
+                              style: AppTextStyles.bodyMedium,
+                            ),
+                            Text(
+                              controller.deliveryFee == 0
+                                  ? 'Free'
+                                  : '₹${controller.deliveryFee.toStringAsFixed(0)}',
+                              style: AppTextStyles.bodyMedium,
+                            ),
                           ],
                         ),
                         const Divider(height: 24),
@@ -191,7 +239,10 @@ class CartView extends GetView<CartController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text('Total', style: AppTextStyles.heading2),
-                            Text('₹${controller.total.toStringAsFixed(0)}', style: AppTextStyles.heading2),
+                            Text(
+                              '₹${controller.total.toStringAsFixed(0)}',
+                              style: AppTextStyles.heading2,
+                            ),
                           ],
                         ),
                         const SizedBox(height: 16),
@@ -200,14 +251,26 @@ class CartView extends GetView<CartController> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (controller.cartItems.isEmpty) {
-                                Get.snackbar('Empty Cart', 'Your cart is empty.', snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white);
+                                Get.snackbar(
+                                  'Empty Cart',
+                                  'Your cart is empty.',
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white,
+                                );
                                 return;
                               }
                               Get.toNamed(AppRoutes.checkout);
                             },
                             child: const Padding(
                               padding: EdgeInsets.symmetric(vertical: 16),
-                              child: Text('Proceed to Checkout', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              child: Text(
+                                'Proceed to Checkout',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                         ),

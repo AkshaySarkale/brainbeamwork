@@ -25,7 +25,11 @@ class AuthController extends GetxController {
       firebaseUser.value = _authRepo.getCurrentUser();
       Get.offAllNamed(AppRoutes.home);
     } catch (e) {
-      AppUtils.showSnackbar('Login Failed', FirebaseErrors.getMessage(e), isError: true);
+      AppUtils.showSnackbar(
+        'Login Failed',
+        FirebaseErrors.getMessage(e),
+        isError: true,
+      );
     } finally {
       isLoading.value = false;
     }
@@ -43,11 +47,18 @@ class AuthController extends GetxController {
         }
         await _authRepo.logout();
         firebaseUser.value = null;
-        AppUtils.showSnackbar('Success', 'Account created successfully. Please login.');
+        AppUtils.showSnackbar(
+          'Success',
+          'Account created successfully. Please login.',
+        );
         Get.offAllNamed(AppRoutes.login);
       }
     } catch (e) {
-      AppUtils.showSnackbar('Registration Failed', FirebaseErrors.getMessage(e), isError: true);
+      AppUtils.showSnackbar(
+        'Registration Failed',
+        FirebaseErrors.getMessage(e),
+        isError: true,
+      );
     } finally {
       isLoading.value = false;
     }
@@ -60,7 +71,11 @@ class AuthController extends GetxController {
       AppUtils.showSnackbar('Success', 'Password reset email sent.');
       Get.back();
     } catch (e) {
-      AppUtils.showSnackbar('Error', FirebaseErrors.getMessage(e), isError: true);
+      AppUtils.showSnackbar(
+        'Error',
+        FirebaseErrors.getMessage(e),
+        isError: true,
+      );
     } finally {
       isLoading.value = false;
     }
@@ -73,7 +88,11 @@ class AuthController extends GetxController {
       firebaseUser.value = null;
       Get.offAllNamed(AppRoutes.login);
     } catch (e) {
-      AppUtils.showSnackbar('Logout Failed', FirebaseErrors.getMessage(e), isError: true);
+      AppUtils.showSnackbar(
+        'Logout Failed',
+        FirebaseErrors.getMessage(e),
+        isError: true,
+      );
     } finally {
       isLoading.value = false;
     }

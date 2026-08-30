@@ -35,7 +35,9 @@ class WishlistItemModel {
       'title': title,
       'price': price,
       'thumbnail': thumbnail,
-      'addedAt': addedAt != null ? Timestamp.fromDate(addedAt!) : FieldValue.serverTimestamp(),
+      'addedAt': addedAt != null
+          ? Timestamp.fromDate(addedAt!)
+          : FieldValue.serverTimestamp(),
     };
   }
 

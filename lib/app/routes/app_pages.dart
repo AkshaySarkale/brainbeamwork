@@ -30,6 +30,8 @@ import '../../features/profile/profile_binding.dart';
 import '../../features/profile/profile_view.dart';
 import '../../features/profile/edit_profile_view.dart';
 import '../../features/profile/change_password_view.dart';
+import '../../features/notification/notification_binding.dart';
+import '../../features/notification/notification_view.dart';
 
 class AppPages {
   static final pages = [
@@ -43,14 +45,8 @@ class AppPages {
       page: () => const HomeView(),
       binding: HomeBinding(),
     ),
-    GetPage(
-      name: AppRoutes.login,
-      page: () => const LoginView(),
-    ),
-    GetPage(
-      name: AppRoutes.register,
-      page: () => const RegisterView(),
-    ),
+    GetPage(name: AppRoutes.login, page: () => const LoginView()),
+    GetPage(name: AppRoutes.register, page: () => const RegisterView()),
     GetPage(
       name: AppRoutes.forgotPassword,
       page: () => const ForgotPasswordView(),
@@ -80,10 +76,7 @@ class AppPages {
       page: () => const AddressView(),
       binding: AddressBinding(),
     ),
-    GetPage(
-      name: AppRoutes.addAddress,
-      page: () => const AddAddressView(),
-    ),
+    GetPage(name: AppRoutes.addAddress, page: () => const AddAddressView()),
     GetPage(
       name: AppRoutes.checkout,
       page: () => const CheckoutView(),
@@ -94,14 +87,8 @@ class AppPages {
       page: () => const OrderView(),
       binding: OrderBinding(),
     ),
-    GetPage(
-      name: AppRoutes.orderDetails,
-      page: () => const OrderDetailsView(),
-    ),
-    GetPage(
-      name: AppRoutes.orderSuccess,
-      page: () => const OrderSuccessView(),
-    ),
+    GetPage(name: AppRoutes.orderDetails, page: () => const OrderDetailsView()),
+    GetPage(name: AppRoutes.orderSuccess, page: () => const OrderSuccessView()),
     GetPage(
       name: AppRoutes.wishlist,
       page: () => const WishlistView(),
@@ -112,13 +99,15 @@ class AppPages {
       page: () => const ProfileView(),
       binding: ProfileBinding(),
     ),
-    GetPage(
-      name: AppRoutes.editProfile,
-      page: () => const EditProfileView(),
-    ),
+    GetPage(name: AppRoutes.editProfile, page: () => const EditProfileView()),
     GetPage(
       name: AppRoutes.changePassword,
       page: () => const ChangePasswordView(),
+    ),
+    GetPage(
+      name: AppRoutes.notifications,
+      page: () => const NotificationView(),
+      binding: NotificationBinding(),
     ),
   ];
 }

@@ -41,7 +41,9 @@ class _EditProfileViewState extends State<EditProfileView> {
     if (_formKey.currentState?.validate() ?? false) {
       controller.updateProfile(
         name: _nameController.text.trim(),
-        phone: _phoneController.text.trim().isEmpty ? null : _phoneController.text.trim(),
+        phone: _phoneController.text.trim().isEmpty
+            ? null
+            : _phoneController.text.trim(),
       );
     }
   }
@@ -57,18 +59,25 @@ class _EditProfileViewState extends State<EditProfileView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Full Name', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                'Full Name',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 8),
               AppTextField(
                 hintText: 'Enter your full name',
                 controller: _nameController,
                 validator: (val) {
-                  if (val == null || val.trim().length < 2) return 'Minimum 2 characters required';
+                  if (val == null || val.trim().length < 2)
+                    return 'Minimum 2 characters required';
                   return null;
                 },
               ),
               const SizedBox(height: 24),
-              const Text('Phone Number', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                'Phone Number',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 8),
               AppTextField(
                 hintText: 'Enter your phone number (optional)',
@@ -76,12 +85,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                 keyboardType: TextInputType.phone,
               ),
               const SizedBox(height: 24),
-              const Text('Email', style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              AppTextField(
-                hintText: 'Email',
-                controller: _emailController,
+              const Text(
+                'Email',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
+              const SizedBox(height: 8),
+              AppTextField(hintText: 'Email', controller: _emailController),
               const Padding(
                 padding: EdgeInsets.only(top: 8.0, left: 4),
                 child: Text(

@@ -8,7 +8,7 @@ class FirebaseService extends GetxService {
   FirebaseAuth get auth => FirebaseAuth.instance;
   FirebaseFirestore get firestore => FirebaseFirestore.instance;
   FirebaseStorage get storage => FirebaseStorage.instance;
-  
+
   @override
   void onInit() {
     super.onInit();
@@ -21,7 +21,10 @@ class FirebaseService extends GetxService {
       final app = auth.app;
       Get.log('FirebaseService: Connected to Firebase App [${app.name}]');
     } catch (e) {
-      Get.log('FirebaseService: Error verifying connection - $e', isError: true);
+      Get.log(
+        'FirebaseService: Error verifying connection - $e',
+        isError: true,
+      );
     }
   }
 }

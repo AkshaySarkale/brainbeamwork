@@ -4,6 +4,7 @@ import 'address_controller.dart';
 import '../../app/routes/app_routes.dart';
 import '../../app/theme/app_text_styles.dart';
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/app_empty_state.dart';
 
 class AddressView extends GetView<AddressController> {
   const AddressView({super.key});
@@ -22,20 +23,12 @@ class AddressView extends GetView<AddressController> {
         }
 
         if (controller.addresses.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.location_on_outlined, size: 80, color: Colors.grey),
-                const SizedBox(height: 16),
-                const Text('No saved addresses.', style: AppTextStyles.heading2),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () => Get.toNamed(AppRoutes.addAddress),
-                  child: const Text('Add Address'),
-                ),
-              ],
-            ),
+          return AppEmptyState(
+            icon: Icons.location_on_outlined,
+            title: 'No saved addresses',
+            message: 'Add an address for faster checkout.',
+            buttonText: 'Add Address',
+            onButtonPressed: () => Get.toNamed(AppRoutes.addAddress),
           );
         }
 
@@ -48,14 +41,18 @@ class AddressView extends GetView<AddressController> {
               itemBuilder: (context, index) {
                 final address = controller.addresses[index];
                 return GestureDetector(
-                  onTap: isSelectionMode ? () => controller.selectAddress(address) : null,
+                  onTap: isSelectionMode
+                      ? () => controller.selectAddress(address)
+                      : null,
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: address.isDefault ? AppColors.primary : Colors.grey.shade300,
+                        color: address.isDefault
+                            ? AppColors.primary
+                            : Colors.grey.shade300,
                         width: address.isDefault ? 2 : 1,
                       ),
                     ),
@@ -65,37 +62,66 @@ class AddressView extends GetView<AddressController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(address.fullName, style: AppTextStyles.heading2),
+                            Text(
+                              address.fullName,
+                              style: AppTextStyles.heading2,
+                            ),
                             if (address.isDefault)
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withValues(alpha: 0.1),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.1,
+                                  ),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
-                                child: Text('Default', style: TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.bold)),
+                                child: Text(
+                                  'Default',
+                                  style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                           ],
                         ),
                         const SizedBox(height: 8),
                         Text(address.phone, style: AppTextStyles.bodyMedium),
                         const SizedBox(height: 4),
-                        Text('${address.addressLine}, ${address.city}', style: AppTextStyles.bodyMedium),
-                        Text('${address.state} - ${address.postalCode}', style: AppTextStyles.bodyMedium),
+                        Text(
+                          '${address.addressLine}, ${address.city}',
+                          style: AppTextStyles.bodyMedium,
+                        ),
+                        Text(
+                          '${address.state} - ${address.postalCode}',
+                          style: AppTextStyles.bodyMedium,
+                        ),
                         if (address.landmark?.isNotEmpty == true)
-                          Text('Landmark: ${address.landmark}', style: AppTextStyles.bodyMedium),
+                          Text(
+                            'Landmark: ${address.landmark}',
+                            style: AppTextStyles.bodyMedium,
+                          ),
                         const SizedBox(height: 12),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             if (!address.isDefault)
                               TextButton(
-                                onPressed: () => controller.setDefaultAddress(address.id),
+                                onPressed: () =>
+                                    controller.setDefaultAddress(address.id),
                                 child: const Text('Set as Default'),
                               ),
                             TextButton(
-                              onPressed: () => controller.deleteAddress(address.id),
-                              child: const Text('Delete', style: TextStyle(color: Colors.red)),
+                              onPressed: () =>
+                                  controller.deleteAddress(address.id),
+                              child: const Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.red),
+                              ),
                             ),
                           ],
                         ),

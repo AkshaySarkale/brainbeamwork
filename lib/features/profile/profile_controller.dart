@@ -8,7 +8,7 @@ import '../../core/utils/firebase_errors.dart';
 
 class ProfileController extends GetxController {
   final UserRepository _userRepo = Get.find<UserRepository>();
-  
+
   final Rx<UserModel?> userModel = Rx<UserModel?>(null);
   final RxBool isLoading = false.obs;
   final RxBool isUpdating = false.obs;
@@ -46,40 +46,54 @@ class ProfileController extends GetxController {
     try {
       isUpdating.value = true;
       await _userRepo.updateProfile(name: name, phone: phone);
-      
+
       // Also update Auth Display Name
       try {
         await FirebaseAuth.instance.currentUser?.updateDisplayName(name);
       } catch (_) {}
-      
+
       await fetchProfile(); // Reload
       AppUtils.showSnackbar('Success', 'Profile updated successfully.');
       Get.back();
     } catch (e) {
-      AppUtils.showSnackbar('Error', 'Failed to update profile.', isError: true);
+      AppUtils.showSnackbar(
+        'Error',
+        'Failed to update profile.',
+        isError: true,
+      );
     } finally {
       isUpdating.value = false;
     }
   }
 
-  Future<void> changePassword({required String currentPassword, required String newPassword}) async {
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null || user.email == null) return;
 
     try {
       isUpdating.value = true;
-      
+
       // Re-authenticate
-      final cred = EmailAuthProvider.credential(email: user.email!, password: currentPassword);
+      final cred = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
       await user.reauthenticateWithCredential(cred);
-      
+
       // Update password
       await user.updatePassword(newPassword);
-      
+
       AppUtils.showSnackbar('Success', 'Password changed successfully.');
       Get.back();
     } catch (e) {
-      AppUtils.showSnackbar('Error', FirebaseErrors.getMessage(e), isError: true);
+      AppUtils.showSnackbar(
+        'Error',
+        FirebaseErrors.getMessage(e),
+        isError: true,
+      );
     } finally {
       isUpdating.value = false;
     }
