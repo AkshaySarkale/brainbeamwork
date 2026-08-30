@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../app/theme/app_colors.dart';
+import 'package:shopora/app/theme/app_colors.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({super.key});

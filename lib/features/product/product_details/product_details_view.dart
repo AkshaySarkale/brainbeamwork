@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'product_details_controller.dart';
-import '../../../app/theme/app_text_styles.dart';
-import '../../../app/theme/app_colors.dart';
-import '../../../core/widgets/shimmer_loading.dart';
-import '../../cart/cart_controller.dart';
-import '../../wishlist/wishlist_controller.dart';
+import 'package:shopora/features/product/product_details/product_details_controller.dart';
+import 'package:shopora/app/theme/app_text_styles.dart';
+import 'package:shopora/app/theme/app_colors.dart';
+import 'package:shopora/core/widgets/shimmer_loading.dart';
+import 'package:shopora/core/utils/app_utils.dart';
+import 'package:shopora/features/cart/cart_controller.dart';
+import 'package:shopora/features/wishlist/wishlist_controller.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
   const ProductDetailsView({super.key});
@@ -32,10 +33,11 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           }),
         ],
       ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const ProductDetailsShimmer();
-        }
+      body: SafeArea(
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const ProductDetailsShimmer();
+          }
         if (controller.errorMessage.value.isNotEmpty) {
           return Center(child: Text(controller.errorMessage.value));
         }
@@ -48,37 +50,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                height: 300,
-                child: PageView.builder(
-                  itemCount: product.images.isEmpty ? 1 : product.images.length,
-                  itemBuilder: (context, index) {
-                    final imageUrl = product.images.isEmpty
-                        ? product.thumbnail
-                        : product.images[index];
-                    if (imageUrl.isEmpty) {
-                      return const Center(
-                        child: Icon(
-                          Icons.image_not_supported,
-                          size: 60,
-                          color: Colors.grey,
-                        ),
-                      );
-                    }
-                    return Image.network(
-                      imageUrl,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Center(
-                            child: Icon(
-                              Icons.image_not_supported,
-                              size: 60,
-                              color: Colors.grey,
-                            ),
-                          ),
-                    );
-                  },
-                ),
+              _ProductImageSlider(
+                images: product.images,
+                thumbnail: product.thumbnail,
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -182,35 +156,168 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           ),
         );
       }),
+      ),
       bottomNavigationBar: Obx(() {
         if (controller.product.value == null) return const SizedBox.shrink();
 
         final cartController = Get.find<CartController>();
 
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ElevatedButton(
-            onPressed: controller.product.value!.stock > 0
-                ? () async {
-                    await cartController.addToCart(controller.product.value!);
-                  }
-                : null,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: cartController.isUpdating.value
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      ),
-                    )
-                  : const Text('Add to Cart'),
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SizedBox(
+              width: double.infinity,
+              height: 54,
+              child: ElevatedButton(
+                onPressed: controller.product.value!.stock > 0
+                    ? () async {
+                        final success = await cartController.addToCart(controller.product.value!, showSuccessSnackbar: false);
+                        if (success) {
+                          Get.back();
+                          // Show snackbar after navigating back so Get.back() doesn't accidentally pop the snackbar route
+                          Future.delayed(const Duration(milliseconds: 100), () {
+                            AppUtils.showSnackbar('Success', 'Product added to cart.');
+                          });
+                        }
+                      }
+                    : null,
+                child: cartController.isUpdating.value
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : const Text('Add to Cart'),
+              ),
             ),
           ),
         );
       }),
+    );
+  }
+}
+
+class _ProductImageSlider extends StatefulWidget {
+  final List<String> images;
+  final String thumbnail;
+
+  const _ProductImageSlider({required this.images, required this.thumbnail});
+
+  @override
+  State<_ProductImageSlider> createState() => _ProductImageSliderState();
+}
+
+class _ProductImageSliderState extends State<_ProductImageSlider> {
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final itemCount = widget.images.isEmpty ? 1 : widget.images.length;
+    
+    return Column(
+      children: [
+        SizedBox(
+          height: 300,
+          child: Stack(
+            children: [
+              PageView.builder(
+                controller: _pageController,
+                itemCount: itemCount,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  final imageUrl = widget.images.isEmpty
+                      ? widget.thumbnail
+                      : widget.images[index];
+                  if (imageUrl.isEmpty) {
+                    return const Center(
+                      child: Icon(Icons.image_not_supported, size: 60, color: Colors.grey),
+                    );
+                  }
+                  return Image.network(
+                    imageUrl,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Center(child: Icon(Icons.image_not_supported, size: 60, color: Colors.grey)),
+                  );
+                },
+              ),
+              if (itemCount > 1 && _currentIndex > 0)
+                Positioned(
+                  left: 8,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        _pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.black.withOpacity(0.05),
+                        child: const Icon(Icons.chevron_left, color: Colors.black87),
+                      ),
+                    ),
+                  ),
+                ),
+              if (itemCount > 1 && _currentIndex < itemCount - 1)
+                Positioned(
+                  right: 8,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        _pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.black.withOpacity(0.05),
+                        child: const Icon(Icons.chevron_right, color: Colors.black87),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+        if (itemCount > 1) ...[
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              itemCount,
+              (index) => AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: _currentIndex == index ? 24 : 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: _currentIndex == index ? AppColors.primary : Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

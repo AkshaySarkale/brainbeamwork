@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../data/models/order_model.dart';
-import '../../app/theme/app_text_styles.dart';
-import '../../app/theme/app_colors.dart';
+import 'package:shopora/data/models/order_model.dart';
+import 'package:shopora/app/theme/app_text_styles.dart';
+import 'package:shopora/app/theme/app_colors.dart';
 
 class OrderDetailsView extends StatelessWidget {
   const OrderDetailsView({super.key});
@@ -24,8 +24,9 @@ class OrderDetailsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('Order #$orderIdDisplay')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -209,6 +210,7 @@ class OrderDetailsView extends StatelessWidget {
             const SizedBox(height: 32),
           ],
         ),
+      ),
       ),
     );
   }

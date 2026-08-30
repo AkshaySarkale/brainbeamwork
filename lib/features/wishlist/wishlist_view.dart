@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'wishlist_controller.dart';
-import '../cart/cart_controller.dart';
-import '../../app/routes/app_routes.dart';
-import '../../app/theme/app_text_styles.dart';
-import '../../app/theme/app_colors.dart';
-import '../../data/models/product_model.dart';
-import '../../core/widgets/app_empty_state.dart';
+import 'package:shopora/features/wishlist/wishlist_controller.dart';
+import 'package:shopora/features/cart/cart_controller.dart';
+import 'package:shopora/app/routes/app_routes.dart';
+import 'package:shopora/app/theme/app_text_styles.dart';
+import 'package:shopora/app/theme/app_colors.dart';
+import 'package:shopora/data/models/product_model.dart';
+import 'package:shopora/core/widgets/app_empty_state.dart';
+import 'package:shopora/core/widgets/shimmer_loading.dart';
 
 class WishlistView extends GetView<WishlistController> {
   const WishlistView({super.key});
@@ -14,8 +15,15 @@ class WishlistView extends GetView<WishlistController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF2EAFB),
       appBar: AppBar(
-        title: const Text('My Wishlist'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'My Wishlist',
+          style: TextStyle(fontFamily: 'serif', fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black87),
+        ),
         actions: [
           Obx(() {
             if (controller.wishlistItems.isNotEmpty) {
@@ -43,10 +51,11 @@ class WishlistView extends GetView<WishlistController> {
           }),
         ],
       ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
+      body: SafeArea(
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const ListShimmer();
+          }
 
         if (controller.wishlistItems.isEmpty) {
           return AppEmptyState(
@@ -166,7 +175,8 @@ class WishlistView extends GetView<WishlistController> {
             );
           },
         );
-      }),
+        }),
+      ),
     );
   }
 }

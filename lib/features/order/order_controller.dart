@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import '../../data/models/order_model.dart';
-import '../../data/repositories/order_repository.dart';
-import '../../core/utils/app_utils.dart';
-import '../auth/auth_controller.dart';
+import 'package:shopora/data/models/order_model.dart';
+import 'package:shopora/data/repositories/order_repository.dart';
+import 'package:shopora/core/utils/app_utils.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
 
 class OrderController extends GetxController {
   final OrderRepository _orderRepo = Get.find<OrderRepository>();

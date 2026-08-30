@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'order_controller.dart';
-import '../../app/theme/app_text_styles.dart';
-import '../../app/theme/app_colors.dart';
-import '../../app/routes/app_routes.dart';
-import '../../core/widgets/app_empty_state.dart';
+import 'package:shopora/features/order/order_controller.dart';
+import 'package:shopora/app/theme/app_text_styles.dart';
+import 'package:shopora/app/theme/app_colors.dart';
+import 'package:shopora/app/routes/app_routes.dart';
+import 'package:shopora/core/widgets/app_empty_state.dart';
+import 'package:shopora/core/widgets/shimmer_loading.dart';
 
 class OrderView extends GetView<OrderController> {
   const OrderView({super.key});
@@ -12,10 +13,20 @@ class OrderView extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Orders')),
-      body: Obx(() {
+      backgroundColor: const Color(0xFFF2EAFB),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'My Orders',
+          style: TextStyle(fontFamily: 'serif', fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black87),
+        ),
+      ),
+      body: SafeArea(
+        child: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const ListShimmer();
         }
 
         if (controller.orders.isEmpty) {
@@ -113,7 +124,8 @@ class OrderView extends GetView<OrderController> {
             );
           },
         );
-      }),
+        }),
+      ),
     );
   }
 }

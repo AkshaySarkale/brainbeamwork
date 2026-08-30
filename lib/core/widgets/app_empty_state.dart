@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../app/theme/app_colors.dart';
+import 'package:shopora/app/theme/app_colors.dart';
 
 class AppEmptyState extends StatelessWidget {
   final IconData icon;
@@ -50,7 +50,7 @@ class AppEmptyState extends StatelessWidget {
               ElevatedButton(
                 onPressed: onButtonPressed,
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(200, 50),
+                  minimumSize: const Size(200, 54),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),

@@ -1,4 +1,4 @@
-import 'product_model.dart';
+import 'package:shopora/data/models/product_model.dart';
 
 class ProductResponseModel {
   final List<ProductModel> products;

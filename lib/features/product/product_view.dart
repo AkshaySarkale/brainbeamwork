@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'product_controller.dart';
-import '../category/category_controller.dart';
-import '../../core/widgets/product_card.dart';
-import '../../app/theme/app_colors.dart';
+import 'package:shopora/features/product/product_controller.dart';
+import 'package:shopora/features/category/category_controller.dart';
+import 'package:shopora/core/widgets/product_card.dart';
+import 'package:shopora/app/theme/app_colors.dart';
 
 class ProductView extends StatefulWidget {
   const ProductView({super.key});
@@ -25,7 +25,31 @@ class _ProductViewState extends State<ProductView> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    
+    // Sync with route parameters to ensure fresh state if controller persists
+    final categoryId = Get.parameters['categoryId'];
+    if (categoryId != null && categoryId.isNotEmpty) {
+      controller.selectedCategorySlug.value = categoryId;
+    } else if (Get.parameters.containsKey('categoryId') || Get.parameters.containsKey('search')) {
+      // If we routed here with parameters, ensure we clear the old ones if not present
+      if (categoryId == null || categoryId.isEmpty) controller.selectedCategorySlug.value = '';
+    }
+
+    final searchParam = Get.parameters['search'];
+    if (searchParam != null && searchParam.isNotEmpty) {
+      controller.searchQuery.value = searchParam;
+    } else if (Get.parameters.containsKey('categoryId') || Get.parameters.containsKey('search')) {
+      if (searchParam == null || searchParam.isEmpty) controller.searchQuery.value = '';
+    }
+
     _searchController.text = controller.searchQuery.value;
+    
+    // Apply filters immediately in case products are already loaded from previous visits
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (controller.allProducts.isNotEmpty) {
+        controller.applyFilters();
+      }
+    });
   }
 
   void _onScroll() {
@@ -286,9 +310,19 @@ class _ProductViewState extends State<ProductView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Products')),
-      body: Column(
-        children: [
+      backgroundColor: const Color(0xFFF2EAFB),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Products',
+          style: TextStyle(fontFamily: 'serif', fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black87),
+        ),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
           // Search Bar
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -543,6 +577,7 @@ class _ProductViewState extends State<ProductView> {
             }),
           ),
         ],
+      ),
       ),
     );
   }

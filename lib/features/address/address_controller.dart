@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import '../../data/models/address_model.dart';
-import '../../data/repositories/address_repository.dart';
-import '../../core/utils/app_utils.dart';
-import '../auth/auth_controller.dart';
+import 'package:shopora/data/models/address_model.dart';
+import 'package:shopora/data/repositories/address_repository.dart';
+import 'package:shopora/core/utils/app_utils.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
 
 class AddressController extends GetxController {
   final AddressRepository _addressRepo = Get.find<AddressRepository>();
@@ -48,7 +48,7 @@ class AddressController extends GetxController {
     }
   }
 
-  Future<void> addAddress(AddressModel address) async {
+  Future<bool> addAddress(AddressModel address) async {
     try {
       isSaving.value = true;
       final isFirstAddress = addresses.isEmpty;
@@ -66,10 +66,10 @@ class AddressController extends GetxController {
       }
 
       await fetchAddresses(); // Re-fetch to get correct IDs
-      AppUtils.showSnackbar('Success', 'Address added successfully.');
-      Get.back(); // Go back from add address view
+      return true;
     } catch (e) {
       AppUtils.showSnackbar('Error', 'Failed to add address.', isError: true);
+      return false;
     } finally {
       isSaving.value = false;
     }

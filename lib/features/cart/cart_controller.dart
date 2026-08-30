@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../data/models/cart_item_model.dart';
-import '../../data/models/product_model.dart';
-import '../../data/repositories/cart_repository.dart';
-import '../../core/utils/app_utils.dart';
-import '../auth/auth_controller.dart';
+import 'package:shopora/data/models/cart_item_model.dart';
+import 'package:shopora/data/models/product_model.dart';
+import 'package:shopora/data/repositories/cart_repository.dart';
+import 'package:shopora/core/utils/app_utils.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
 
 class CartController extends GetxController {
   final CartRepository _cartRepo = Get.find<CartRepository>();
@@ -12,6 +13,14 @@ class CartController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxBool isUpdating = false.obs;
   final RxString errorMessage = ''.obs;
+
+  final TextEditingController promoController = TextEditingController();
+  final RxString appliedPromoCode = ''.obs;
+
+  final List<Map<String, dynamic>> availableOffers = [
+    {'code': 'FLAT50', 'title': 'Flat 50% Off', 'description': 'Get 50% off on your entire cart.'},
+    {'code': 'SAVE20', 'title': 'Save ₹20', 'description': 'Get a flat ₹20 discount.'},
+  ];
 
   @override
   void onInit() {
@@ -36,9 +45,45 @@ class CartController extends GetxController {
   double get subtotal =>
       cartItems.fold(0.0, (sum, item) => sum + (item.price * item.quantity));
 
+  double get discountAmount {
+    final code = appliedPromoCode.value.toUpperCase();
+    if (code == 'FLAT50') return subtotal * 0.5;
+    if (code == 'SAVE20') return subtotal > 20 ? 20.0 : subtotal;
+    return 0.0;
+  }
+
   double get deliveryFee => subtotal > 0 && subtotal < 500 ? 50.0 : 0.0;
 
-  double get total => subtotal + deliveryFee;
+  double get total => subtotal - discountAmount + deliveryFee;
+
+  void applyPromoCode([String? specificCode]) {
+    final code = (specificCode ?? promoController.text).trim().toUpperCase();
+    
+    if (code.isEmpty) {
+      AppUtils.showSnackbar('Error', 'Please enter a promo code.', isError: true);
+      return;
+    }
+    
+    if (appliedPromoCode.value.toUpperCase() == code) {
+      AppUtils.showSnackbar('Info', 'Promo code "$code" is already applied.');
+      return;
+    }
+
+    if (code == 'FLAT50' || code == 'SAVE20') {
+      appliedPromoCode.value = code;
+      promoController.text = code;
+      Get.back(result: true); // close bottom sheet if open
+      AppUtils.showSnackbar('Success', 'Promo code "$code" applied successfully!');
+    } else {
+      AppUtils.showSnackbar('Error', 'Invalid promo code.', isError: true);
+    }
+  }
+
+  void removePromoCode() {
+    appliedPromoCode.value = '';
+    promoController.clear();
+    AppUtils.showSnackbar('Info', 'Promo code removed.');
+  }
 
   Future<void> fetchCart() async {
     try {
@@ -58,14 +103,14 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> addToCart(ProductModel product) async {
+  Future<bool> addToCart(ProductModel product, {bool showSuccessSnackbar = true}) async {
     if (Get.find<AuthController>().firebaseUser.value == null) {
       AppUtils.showSnackbar(
         'Authentication Required',
         'Please login to add items to cart.',
         isError: true,
       );
-      return;
+      return false;
     }
 
     try {
@@ -82,7 +127,7 @@ class CartController extends GetxController {
             'Only ${product.stock} items are available.',
             isError: true,
           );
-          return;
+          return false;
         }
         await increaseQuantity(existingItem, stock: product.stock);
       } else {
@@ -92,7 +137,7 @@ class CartController extends GetxController {
             'This item is currently out of stock.',
             isError: true,
           );
-          return;
+          return false;
         }
 
         final newItem = CartItemModel(
@@ -106,14 +151,18 @@ class CartController extends GetxController {
 
         await _cartRepo.addCartItem(newItem);
         cartItems.insert(0, newItem); // Optimistic prepend
-        AppUtils.showSnackbar('Success', 'Product added to cart.');
+        if (showSuccessSnackbar) {
+          AppUtils.showSnackbar('Success', 'Product added to cart.');
+        }
       }
+      return true;
     } catch (e) {
       AppUtils.showSnackbar(
         'Error',
         'Unable to add to cart. $e',
         isError: true,
       );
+      return false;
     } finally {
       isUpdating.value = false;
     }
@@ -188,11 +237,19 @@ class CartController extends GetxController {
       isUpdating.value = true;
       await _cartRepo.clearCart();
       cartItems.clear();
+      appliedPromoCode.value = '';
+      promoController.clear();
       AppUtils.showSnackbar('Success', 'Cart cleared successfully.');
     } catch (e) {
       AppUtils.showSnackbar('Error', 'Unable to clear cart.', isError: true);
     } finally {
       isUpdating.value = false;
     }
+  }
+  
+  @override
+  void onClose() {
+    promoController.dispose();
+    super.onClose();
   }
 }

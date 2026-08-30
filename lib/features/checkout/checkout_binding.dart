@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import '../../data/repositories/order_repository.dart';
-import 'checkout_controller.dart';
-import '../address/address_controller.dart';
-import '../../data/repositories/address_repository.dart';
+import 'package:shopora/data/repositories/order_repository.dart';
+import 'package:shopora/features/checkout/checkout_controller.dart';
+import 'package:shopora/features/address/address_controller.dart';
+import 'package:shopora/data/repositories/address_repository.dart';
 
 class CheckoutBinding extends Bindings {
   @override

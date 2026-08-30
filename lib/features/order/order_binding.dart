@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../data/repositories/order_repository.dart';
-import 'order_controller.dart';
+import 'package:shopora/data/repositories/order_repository.dart';
+import 'package:shopora/features/order/order_controller.dart';
 
 class OrderBinding extends Bindings {
   @override

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../data/repositories/wishlist_repository.dart';
-import 'wishlist_controller.dart';
+import 'package:shopora/data/repositories/wishlist_repository.dart';
+import 'package:shopora/features/wishlist/wishlist_controller.dart';
 
 class WishlistBinding extends Bindings {
   @override

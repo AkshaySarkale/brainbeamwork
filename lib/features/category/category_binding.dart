@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../data/repositories/category_repository.dart';
-import 'category_controller.dart';
+import 'package:shopora/data/repositories/category_repository.dart';
+import 'package:shopora/features/category/category_controller.dart';
 
 class CategoryBinding extends Bindings {
   @override

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../core/constants/api_constants.dart';
-import '../models/category_model.dart';
+import 'package:shopora/core/constants/api_constants.dart';
+import 'package:shopora/data/models/category_model.dart';
 
 class CategoryRepository {
   Future<List<CategoryModel>> getCategories() async {

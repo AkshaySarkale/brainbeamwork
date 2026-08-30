@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../data/repositories/user_repository.dart';
-import 'profile_controller.dart';
+import 'package:shopora/data/repositories/user_repository.dart';
+import 'package:shopora/features/profile/profile_controller.dart';
 
 class ProfileBinding extends Bindings {
   @override

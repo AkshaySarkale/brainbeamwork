@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../data/repositories/address_repository.dart';
-import 'address_controller.dart';
+import 'package:shopora/data/repositories/address_repository.dart';
+import 'package:shopora/features/address/address_controller.dart';
 
 class AddressBinding extends Bindings {
   @override

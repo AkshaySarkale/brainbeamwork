@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
-import '../../core/services/firebase_service.dart';
-import '../../features/auth/auth_binding.dart';
-import '../../data/repositories/cart_repository.dart';
-import '../../features/cart/cart_controller.dart';
-import '../../data/repositories/wishlist_repository.dart';
-import '../../features/wishlist/wishlist_controller.dart';
-import '../../data/repositories/user_repository.dart';
-import '../../features/profile/profile_controller.dart';
-import '../../data/repositories/notification_repository.dart';
-import '../../features/notification/notification_controller.dart';
+import 'package:shopora/core/services/firebase_service.dart';
+import 'package:shopora/features/auth/auth_binding.dart';
+import 'package:shopora/data/repositories/cart_repository.dart';
+import 'package:shopora/features/cart/cart_controller.dart';
+import 'package:shopora/data/repositories/wishlist_repository.dart';
+import 'package:shopora/features/wishlist/wishlist_controller.dart';
+import 'package:shopora/data/repositories/user_repository.dart';
+import 'package:shopora/features/profile/profile_controller.dart';
+import 'package:shopora/data/repositories/notification_repository.dart';
+import 'package:shopora/features/notification/notification_controller.dart';
 
 class InitialBinding extends Bindings {
   @override

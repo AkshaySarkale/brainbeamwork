@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../app/routes/app_routes.dart';
-import '../../app/theme/app_text_styles.dart';
-import '../../app/theme/app_colors.dart';
+import 'package:shopora/app/routes/app_routes.dart';
+import 'package:shopora/app/theme/app_text_styles.dart';
+import 'package:shopora/app/theme/app_colors.dart';
 
 class OrderSuccessView extends StatelessWidget {
   const OrderSuccessView({super.key});

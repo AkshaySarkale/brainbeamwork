@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../data/models/category_model.dart';
-import '../../data/repositories/category_repository.dart';
+import 'package:shopora/data/models/category_model.dart';
+import 'package:shopora/data/repositories/category_repository.dart';
 
 class CategoryController extends GetxController {
   final CategoryRepository _repository = Get.find<CategoryRepository>();

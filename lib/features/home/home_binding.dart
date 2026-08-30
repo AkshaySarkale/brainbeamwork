@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import '../../data/repositories/category_repository.dart';
-import '../../data/repositories/product_repository.dart';
-import '../../data/repositories/cart_repository.dart';
-import '../category/category_controller.dart';
-import '../cart/cart_controller.dart';
+import 'package:shopora/data/repositories/category_repository.dart';
+import 'package:shopora/data/repositories/product_repository.dart';
+import 'package:shopora/data/repositories/cart_repository.dart';
+import 'package:shopora/features/category/category_controller.dart';
+import 'package:shopora/features/cart/cart_controller.dart';
 
 class HomeBinding extends Bindings {
   @override

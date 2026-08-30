@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'splash_controller.dart';
-import '../../app/theme/app_colors.dart';
-import '../../app/theme/app_text_styles.dart';
-import '../../core/constants/app_constants.dart';
+import 'package:shopora/features/splash/splash_controller.dart';
+import 'package:shopora/app/theme/app_colors.dart';
+import 'package:shopora/app/theme/app_text_styles.dart';
+import 'package:shopora/core/constants/app_constants.dart';
 
 class SplashView extends GetView<SplashController> {
   const SplashView({super.key});

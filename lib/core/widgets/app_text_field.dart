@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../app/theme/app_colors.dart';
+import 'package:flutter/services.dart';
+import 'package:shopora/app/theme/app_colors.dart';
 
 class AppTextField extends StatelessWidget {
   final String hintText;
@@ -7,6 +8,8 @@ class AppTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
+  final void Function(String)? onChanged;
 
   const AppTextField({
     super.key,
@@ -15,6 +18,8 @@ class AppTextField extends StatelessWidget {
     this.obscureText = false,
     this.keyboardType,
     this.validator,
+    this.inputFormatters,
+    this.onChanged,
   });
 
   @override
@@ -24,6 +29,8 @@ class AppTextField extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       validator: validator,
+      inputFormatters: inputFormatters,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,

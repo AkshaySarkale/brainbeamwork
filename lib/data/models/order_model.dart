@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'address_model.dart';
+import 'package:shopora/data/models/address_model.dart';
 
 class OrderItemModel {
   final int productId;

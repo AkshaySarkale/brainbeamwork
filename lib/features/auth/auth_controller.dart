@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import '../../app/routes/app_routes.dart';
-import '../../core/utils/app_utils.dart';
-import '../../core/utils/firebase_errors.dart';
-import '../../data/repositories/auth_repository.dart';
+import 'package:shopora/app/routes/app_routes.dart';
+import 'package:shopora/core/utils/app_utils.dart';
+import 'package:shopora/core/utils/firebase_errors.dart';
+import 'package:shopora/data/repositories/auth_repository.dart';
 
 class AuthController extends GetxController {
   static AuthController get instance => Get.find();

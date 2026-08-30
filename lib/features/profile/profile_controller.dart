@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import '../../data/models/user_model.dart';
-import '../../data/repositories/user_repository.dart';
-import '../auth/auth_controller.dart';
-import '../../core/utils/app_utils.dart';
-import '../../core/utils/firebase_errors.dart';
+import 'package:shopora/data/models/user_model.dart';
+import 'package:shopora/data/repositories/user_repository.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
+import 'package:shopora/core/utils/app_utils.dart';
+import 'package:shopora/core/utils/firebase_errors.dart';
 
 class ProfileController extends GetxController {
   final UserRepository _userRepo = Get.find<UserRepository>();

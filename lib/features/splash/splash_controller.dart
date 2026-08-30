@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import '../../app/routes/app_routes.dart';
-import '../../core/constants/app_constants.dart';
-import '../auth/auth_controller.dart';
+import 'package:shopora/app/routes/app_routes.dart';
+import 'package:shopora/core/constants/app_constants.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
 
 class SplashController extends GetxController {
   @override

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../app/routes/app_routes.dart';
-import '../../core/widgets/app_button.dart';
-import '../../core/widgets/app_text_field.dart';
-import 'auth_controller.dart';
+import 'package:shopora/app/routes/app_routes.dart';
+import 'package:shopora/core/widgets/app_button.dart';
+import 'package:shopora/core/widgets/app_text_field.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});

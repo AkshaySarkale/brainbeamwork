@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import '../../core/constants/firebase_constants.dart';
-import '../../core/services/firebase_service.dart';
+import 'package:shopora/core/constants/firebase_constants.dart';
+import 'package:shopora/core/services/firebase_service.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth = Get.find<FirebaseService>().auth;

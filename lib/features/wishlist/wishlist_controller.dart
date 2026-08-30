@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import '../../data/models/wishlist_item_model.dart';
-import '../../data/models/product_model.dart';
-import '../../data/repositories/wishlist_repository.dart';
-import '../../core/utils/app_utils.dart';
-import '../auth/auth_controller.dart';
+import 'package:shopora/data/models/wishlist_item_model.dart';
+import 'package:shopora/data/models/product_model.dart';
+import 'package:shopora/data/repositories/wishlist_repository.dart';
+import 'package:shopora/core/utils/app_utils.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
 
 class WishlistController extends GetxController {
   final WishlistRepository _wishlistRepo = Get.find<WishlistRepository>();

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/notification_model.dart';
-import '../../features/auth/auth_controller.dart';
+import 'package:shopora/data/models/notification_model.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
 
 class NotificationRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

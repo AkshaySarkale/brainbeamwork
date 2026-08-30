@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../core/constants/api_constants.dart';
-import '../models/product_model.dart';
-import '../models/product_response_model.dart';
+import 'package:shopora/core/constants/api_constants.dart';
+import 'package:shopora/data/models/product_model.dart';
+import 'package:shopora/data/models/product_response_model.dart';
 
 class ProductRepository {
   Future<ProductResponseModel> getProducts({

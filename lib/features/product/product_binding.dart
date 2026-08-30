@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../data/repositories/product_repository.dart';
-import 'product_controller.dart';
+import 'package:shopora/data/repositories/product_repository.dart';
+import 'package:shopora/features/product/product_controller.dart';
 
 class ProductBinding extends Bindings {
   @override

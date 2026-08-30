@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import '../../data/models/product_model.dart';
-import '../../data/repositories/product_repository.dart';
+import 'package:shopora/data/models/product_model.dart';
+import 'package:shopora/data/repositories/product_repository.dart';
 
 enum SortOption {
   relevance,

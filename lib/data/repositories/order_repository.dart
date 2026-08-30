@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import '../models/order_model.dart';
-import 'auth_repository.dart';
+import 'package:shopora/data/models/order_model.dart';
+import 'package:shopora/data/repositories/auth_repository.dart';
 
 class OrderRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

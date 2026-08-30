@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import '../models/address_model.dart';
-import 'auth_repository.dart';
+import 'package:shopora/data/models/address_model.dart';
+import 'package:shopora/data/repositories/auth_repository.dart';
 
 class AddressRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

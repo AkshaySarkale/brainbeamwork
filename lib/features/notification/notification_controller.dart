@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import '../../data/models/notification_model.dart';
-import '../../data/repositories/notification_repository.dart';
-import '../auth/auth_controller.dart';
-import '../../core/utils/app_utils.dart';
+import 'package:shopora/data/models/notification_model.dart';
+import 'package:shopora/data/repositories/notification_repository.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
+import 'package:shopora/core/utils/app_utils.dart';
 
 class NotificationController extends GetxController {
   final NotificationRepository _repository = Get.find<NotificationRepository>();

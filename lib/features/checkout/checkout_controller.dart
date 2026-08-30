@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
-import '../../data/repositories/order_repository.dart';
-import '../../data/models/order_model.dart';
-import '../../data/models/address_model.dart';
-import '../cart/cart_controller.dart';
-import '../auth/auth_controller.dart';
-import '../address/address_controller.dart';
-import '../notification/notification_controller.dart';
-import '../../data/models/notification_model.dart';
-import '../../data/repositories/notification_repository.dart';
-import '../../app/routes/app_routes.dart';
-import '../../core/utils/app_utils.dart';
+import 'package:shopora/data/repositories/order_repository.dart';
+import 'package:shopora/data/models/order_model.dart';
+import 'package:shopora/data/models/address_model.dart';
+import 'package:shopora/features/cart/cart_controller.dart';
+import 'package:shopora/features/auth/auth_controller.dart';
+import 'package:shopora/features/address/address_controller.dart';
+import 'package:shopora/features/notification/notification_controller.dart';
+import 'package:shopora/data/models/notification_model.dart';
+import 'package:shopora/data/repositories/notification_repository.dart';
+import 'package:shopora/app/routes/app_routes.dart';
+import 'package:shopora/core/utils/app_utils.dart';
 
 class CheckoutController extends GetxController {
   final OrderRepository _orderRepo = Get.find<OrderRepository>();
@@ -20,8 +20,39 @@ class CheckoutController extends GetxController {
   final RxBool isPlacingOrder = false.obs;
   final RxString paymentMethod = 'cash_on_delivery'.obs;
 
-  Future<void> placeOrder() async {
+  void setPaymentMethod(String method) {
+    paymentMethod.value = method;
+  }
+
+  Future<void> simulateUpiPayment(String appName) async {
     if (isPlacingOrder.value) return;
+    isPlacingOrder.value = true;
+    
+    try {
+      // Simulate opening the app
+      AppUtils.showSnackbar(
+        'Redirecting',
+        'Opening $appName securely...',
+      );
+      await Future.delayed(const Duration(seconds: 2));
+
+      // Simulate processing payment
+      AppUtils.showSnackbar(
+        'Processing Payment',
+        'Please wait while we confirm your payment.',
+      );
+      await Future.delayed(const Duration(seconds: 3));
+
+      // Proceed to place order
+      await placeOrder(skipLockCheck: true);
+    } catch (e) {
+      isPlacingOrder.value = false;
+      AppUtils.showSnackbar('Error', 'Payment failed.', isError: true);
+    }
+  }
+
+  Future<void> placeOrder({bool skipLockCheck = false}) async {
+    if (!skipLockCheck && isPlacingOrder.value) return;
 
     final user = auth.firebaseUser.value;
     if (user == null) {

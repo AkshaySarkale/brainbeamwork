@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'profile_controller.dart';
-import '../../core/widgets/app_text_field.dart';
+import 'package:shopora/features/profile/profile_controller.dart';
+import 'package:shopora/core/widgets/app_text_field.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
@@ -52,8 +52,9 @@ class _EditProfileViewState extends State<EditProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Profile')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -101,7 +102,7 @@ class _EditProfileViewState extends State<EditProfileView> {
               const SizedBox(height: 40),
               SizedBox(
                 width: double.infinity,
-                height: 50,
+                height: 54,
                 child: Obx(() {
                   if (controller.isUpdating.value) {
                     return const ElevatedButton(
@@ -118,6 +119,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             ],
           ),
         ),
+      ),
       ),
     );
   }
