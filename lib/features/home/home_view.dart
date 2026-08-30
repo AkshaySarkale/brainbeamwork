@@ -353,7 +353,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => Get.toNamed(AppRoutes.categories),
+                    onTap: () => _onItemTapped(1),
                     child: Text(
                       'See All',
                       style: TextStyle(

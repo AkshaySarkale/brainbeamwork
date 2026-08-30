@@ -70,7 +70,10 @@ class OrderSuccessView extends StatelessWidget {
               ),
               const SizedBox(height: 48),
               ElevatedButton(
-                onPressed: () => Get.offAllNamed(AppRoutes.orders),
+                onPressed: () {
+                  Get.offAllNamed(AppRoutes.home);
+                  Get.toNamed(AppRoutes.orders);
+                },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   child: Text('View My Orders'),

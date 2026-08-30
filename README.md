@@ -1,96 +1,495 @@
-# Shopora
+# 🛍️ Shopora
 
-A feature-rich, beautiful, and highly responsive E-Commerce application built with Flutter, Firebase, and GetX. Shopora provides a seamless shopping experience with real-time cart synchronization, secure authentication, and a dynamic product catalog.
+Shopora is a Flutter-based e-commerce application developed as part of a technical assignment.
+
+The application demonstrates a complete basic shopping flow with Firebase Authentication, Firestore, REST API integration, GetX state management, product browsing, search, filtering, sorting, wishlist, cart, checkout, orders, notifications, and profile management.
+
+---
+
+## 📋 Project Overview
+
+Shopora provides a simple and user-friendly shopping experience where users can:
+
+* Create an account and log in
+* Browse products and categories
+* Search for products
+* Filter and sort products
+* View product details
+* Add products to wishlist
+* Add products to cart
+* Manage cart quantities
+* Manage delivery addresses
+* Complete the checkout flow
+* Place orders
+* View order history
+* Receive order notifications
+* Manage their profile
+
+---
 
 ## ✨ Features
 
-*   **Robust Authentication**: Secure email/password login and registration powered by Firebase Auth.
-*   **Dynamic Product Catalog**: Browse, search, and filter products fetched from a remote REST API. Includes advanced filtering (by category, price, rating) and sorting capabilities.
-*   **Real-time Cart & Wishlist**: Add products to your cart or wishlist. State is managed seamlessly using GetX and synchronized with Cloud Firestore.
-*   **Checkout & Address Management**: Full checkout flow including multiple delivery addresses, promo codes, and a simulated payment gateway.
-*   **Profile & Notifications**: Manage user profile details, change passwords, and receive in-app notifications for order updates.
-*   **Responsive UI/UX**: Built with a custom, scalable design system featuring rich micro-animations, clean typography, and a modern aesthetic.
+### 🔐 Authentication
 
-## 🏗️ Architecture & Tech Stack
+* User Registration
+* Email & Password Login
+* Forgot Password
+* Logout
+* Firebase Authentication
+* Persistent Authentication Session
+* Form Validation
+* Firebase Error Handling
 
-This project follows a strict **Feature-First Architecture** combined with the **Repository Pattern** to ensure high scalability and maintainability.
+### 🏠 Home
 
-*   **Framework**: [Flutter](https://flutter.dev/)
-*   **State Management & Routing**: [GetX](https://pub.dev/packages/get)
-*   **Backend & Database**: [Firebase](https://firebase.google.com/) (Auth & Cloud Firestore)
-*   **Networking**: `http` package (fetching products from DummyJSON API)
-*   **Architecture Pattern**: MVC + Repository (Feature-based folder structure)
+* User Greeting
+* Product Categories
+* Popular Products
+* Product Search
+* Quick Product Navigation
 
-### Folder Structure
+### 🛍️ Products
 
-```
+* Product Listing
+* Product Details
+* Category Filtering
+* Search
+* Price Filtering
+* Rating Filtering
+* Stock Filtering
+* Product Sorting
+* Pagination
+* Loading States
+* Empty States
+* Error Handling
+
+### ❤️ Wishlist
+
+* Add Product to Wishlist
+* Remove Product from Wishlist
+* Wishlist Persistence
+* User-specific Wishlist
+
+### 🛒 Cart
+
+* Add Product to Cart
+* Increase Quantity
+* Decrease Quantity
+* Remove Product
+* Cart Total Calculation
+* User-specific Cart
+* Cart Persistence
+
+### 📦 Checkout
+
+* Delivery Address Management
+* Add Address
+* Edit Address
+* Delete Address
+* Select Delivery Address
+* Order Summary
+* Place Order
+
+### 📋 Orders
+
+* Order Creation
+* Order History
+* Order Details
+* Order Status
+* Order Items
+* Order Total
+* Order Date
+
+### 🔔 Notifications
+
+* Order Notifications
+* Notification List
+* Read/Unread Status
+* Mark as Read
+* Mark All as Read
+* Delete Notifications
+
+### 👤 Profile
+
+* View Profile
+* Edit Profile
+* Account Information
+* Password Management
+* Logout
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology              | Usage                                               |
+| ----------------------- | --------------------------------------------------- |
+| Flutter                 | Application Development                             |
+| Dart                    | Programming Language                                |
+| GetX                    | State Management, Navigation & Dependency Injection |
+| Firebase Authentication | User Authentication                                 |
+| Cloud Firestore         | User & Application Data                             |
+| DummyJSON               | Product REST API                                    |
+| HTTP                    | REST API Communication                              |
+| Material 3              | UI Design                                           |
+| Android                 | Mobile Platform                                     |
+| Web                     | Web Platform                                        |
+
+---
+
+## 🏗️ Project Architecture
+
+Shopora follows a simple feature-based architecture designed to keep the project easy to understand and maintain.
+
+```text
 lib/
 │
-├── app/                  # App-wide configurations
-│   ├── bindings/         # Global dependency injections
-│   ├── routes/           # Named route definitions and pages
-│   └── theme/            # Centralized colors, typography, and theme
+├── app/
+│   ├── bindings/
+│   ├── routes/
+│   └── theme/
 │
-├── core/                 # Shared resources across features
-│   ├── constants/        # API endpoints, assets, strings
-│   ├── utils/            # Helper functions (e.g., Snackbars, formatters)
-│   └── widgets/          # Reusable UI components (Buttons, TextFields, Shimmers)
+├── core/
+│   ├── constants/
+│   ├── utils/
+│   └── widgets/
 │
-├── data/                 # Data layer
-│   ├── models/           # Data models with fromJson/toJson methods
-│   └── repositories/     # Abstracts data sources (Firebase, REST APIs)
+├── data/
+│   ├── models/
+│   ├── repositories/
+│   └── services/
 │
-└── features/             # Feature modules (The core of the app)
-    ├── address/          # Address management views & controllers
-    ├── auth/             # Login, Register, Forgot Password
-    ├── cart/             # Cart management
-    ├── checkout/         # Order placement and payment selection
-    ├── home/             # Main landing dashboard
-    ├── order/            # Order history and success screens
-    ├── product/          # Product listing, filtering, and details
-    └── profile/          # User profile and settings
+├── features/
+│   ├── auth/
+│   ├── splash/
+│   ├── home/
+│   ├── product/
+│   ├── category/
+│   ├── cart/
+│   ├── wishlist/
+│   ├── checkout/
+│   ├── orders/
+│   ├── address/
+│   ├── notification/
+│   └── profile/
+│
+└── main.dart
 ```
 
-## 🚀 Getting Started
+### Data Flow
+
+```text
+UI / Views
+    ↓
+GetX Controllers
+    ↓
+Repositories
+    ↓
+Firebase / REST API
+```
+
+---
+
+## 🔥 Firebase Integration
+
+Firebase is used for authentication and user-specific application data.
+
+### Firebase Authentication
+
+Used for:
+
+* Registration
+* Login
+* Logout
+* Password Reset
+* Session Management
+
+### Cloud Firestore
+
+Used for:
+
+* User Profiles
+* Addresses
+* Cart
+* Wishlist
+* Orders
+* Notifications
+
+User-specific data is associated with the authenticated Firebase UID.
+
+---
+
+## 🌐 REST API
+
+Shopora uses **DummyJSON** as the product data source.
+
+The REST API is used for:
+
+* Product Listing
+* Product Details
+* Categories
+* Product Search
+* Pagination
+
+The API response is converted into Dart models before being used by the application.
+
+```text
+DummyJSON API
+      ↓
+Repository
+      ↓
+Product Model
+      ↓
+GetX Controller
+      ↓
+UI
+```
+
+---
+
+## 🔄 Application Flow
+
+### Authentication Flow
+
+```text
+Splash
+   │
+   ├── User Logged In
+   │       ↓
+   │      Home
+   │
+   └── User Not Logged In
+           ↓
+         Login
+           ↓
+        Register
+```
+
+### Shopping Flow
+
+```text
+Home
+ ↓
+Products
+ ↓
+Search / Filter / Sort
+ ↓
+Product Details
+ ↓
+Add to Wishlist / Cart
+ ↓
+Cart
+ ↓
+Checkout
+ ↓
+Select Address
+ ↓
+Place Order
+ ↓
+Order Created
+ ↓
+Notification
+ ↓
+Order History
+```
+
+---
+
+## 📸 App Demo
+
+
+### 👤 Profile & Notifications
+
+![Profile & Notifications Demo](screenshots/profile-notifications.gif)
+
+---
+
+## ⚙️ Installation & Setup
 
 ### Prerequisites
 
-*   Flutter SDK (stable channel)
-*   Dart SDK
-*   A Firebase Project
+Make sure the following are installed:
 
-### Installation
+* Flutter SDK
+* Dart SDK
+* Android Studio or VS Code
+* Git
+* Firebase Project
 
-1.  **Clone the repository**
-    ```bash
-    git clone https://github.com/yourusername/shopora.git
-    cd shopora
-    ```
+Check Flutter installation:
 
-2.  **Install dependencies**
-    ```bash
-    flutter pub get
-    ```
+```bash
+flutter doctor
+```
 
-3.  **Firebase Setup**
-    *   Create a project in the [Firebase Console](https://console.firebase.google.com/).
-    *   Enable **Authentication** (Email/Password).
-    *   Enable **Cloud Firestore** and update your security rules.
-    *   Connect your Flutter app to Firebase using the FlutterFire CLI or by manually adding `google-services.json` (Android) and `GoogleService-Info.plist` (iOS).
+---
 
-4.  **Run the App**
-    ```bash
-    flutter run
-    ```
+### 1. Clone the Repository
 
-## 🛡️ Best Practices Implemented
+```bash
+git clone <your-repository-url>
+```
 
-*   **Absolute Package Imports**: Clean and unambiguous imports using `package:shopora/...`.
-*   **Lazy Dependency Injection**: GetX `Bindings` are used to load controllers into memory only when their respective views are pushed to the navigation stack.
-*   **Optimistic UI Updates**: Instant UI feedback on actions (like adding to cart) before server confirmation, ensuring a snappy user experience.
-*   **Memory Management**: Proper disposal of `TextEditingControllers` and `ScrollControllers` to prevent memory leaks.
-*   **Strict Form Validation**: Real-time Regex and format validations on sensitive inputs (Names, Phones, Postal Codes).
+Navigate to the project:
 
-## 📝 License
+```bash
+cd shopora
+```
 
-This project is licensed under the MIT License.
+---
+
+### 2. Install Dependencies
+
+```bash
+flutter pub get
+```
+
+---
+
+### 3. Firebase Configuration
+
+Configure the project with your Firebase project.
+
+Required Firebase services:
+
+* Firebase Authentication
+* Cloud Firestore
+
+Make sure the required Firebase configuration files are available for the target platform.
+
+---
+
+### 4. Run the Application
+
+```bash
+flutter run
+```
+
+---
+
+## 🧪 Development & Testing
+
+Format the project:
+
+```bash
+dart format lib
+```
+
+Analyze the project:
+
+```bash
+flutter analyze
+```
+
+Run tests:
+
+```bash
+flutter test
+```
+
+---
+
+## 📦 Build
+
+### Android Debug APK
+
+```bash
+flutter build apk --debug
+```
+
+### Android Release APK
+
+```bash
+flutter build apk --release
+```
+
+### Web
+
+```bash
+flutter build web
+```
+
+---
+
+## 🔒 Data & Security
+
+Firebase Authentication is used to manage authenticated users.
+
+Firestore user-related data is associated with the authenticated user's UID.
+
+The application is designed so that user-specific information such as:
+
+* Cart
+* Wishlist
+* Addresses
+* Orders
+* Notifications
+* Profile
+
+is associated with the respective authenticated user.
+
+Sensitive credentials should not be committed to the repository.
+
+---
+
+## 📁 Main Modules
+
+| Module         | Responsibility                                                    |
+| -------------- | ----------------------------------------------------------------- |
+| Authentication | Login, registration, password reset and logout                    |
+| Home           | Dashboard and product discovery                                   |
+| Products       | Product listing, details, search, filters, sorting and pagination |
+| Categories     | Category browsing and filtering                                   |
+| Wishlist       | Wishlist management                                               |
+| Cart           | Cart items and quantity management                                |
+| Address        | Delivery address management                                       |
+| Checkout       | Order summary and order placement                                 |
+| Orders         | Order history and details                                         |
+| Notifications  | Order-related notifications                                       |
+| Profile        | User profile and account management                               |
+
+---
+
+## 🎨 UI & UX
+
+The application uses **Material 3** components and follows a consistent design throughout the application.
+
+The UI includes:
+
+* Responsive layouts
+* Reusable widgets
+* Loading indicators
+* Empty states
+* Error states
+* Form validation
+* User-friendly feedback
+* Consistent spacing and typography
+
+The application supports both **Android and Web**.
+
+---
+
+## 📌 Project Status
+
+**Status: Completed**
+
+The current implementation includes the complete basic e-commerce shopping flow from authentication and product browsing to cart, checkout, order management, and notifications.
+
+---
+
+## 👨‍💻 Developer
+
+**Akshay**
+
+Flutter Developer
+
+Built using:
+
+```text
+Flutter • Dart • GetX • Firebase • Firestore • REST API
+```
+
+---
+
+## 📄 License
+
+This project was developed as part of a **technical assignment** and is intended for demonstration and evaluation purposes.

@@ -67,6 +67,20 @@ class NotificationController extends GetxController {
 
   Future<void> markAsRead(String id) async {
     try {
+      final index = notifications.indexWhere((n) => n.id == id);
+      if (index != -1 && !notifications[index].isRead) {
+        final notif = notifications[index];
+        notifications[index] = NotificationModel(
+          id: notif.id,
+          title: notif.title,
+          message: notif.message,
+          type: notif.type,
+          orderId: notif.orderId,
+          isRead: true,
+          createdAt: notif.createdAt,
+          updatedAt: notif.updatedAt,
+        );
+      }
       await _repository.markAsRead(id);
     } catch (e) {
       AppUtils.showSnackbar('Error', 'Could not mark as read.', isError: true);
@@ -76,6 +90,21 @@ class NotificationController extends GetxController {
   Future<void> markAllAsRead() async {
     if (unreadCount == 0) return;
     try {
+      for (int i = 0; i < notifications.length; i++) {
+        if (!notifications[i].isRead) {
+          final notif = notifications[i];
+          notifications[i] = NotificationModel(
+            id: notif.id,
+            title: notif.title,
+            message: notif.message,
+            type: notif.type,
+            orderId: notif.orderId,
+            isRead: true,
+            createdAt: notif.createdAt,
+            updatedAt: notif.updatedAt,
+          );
+        }
+      }
       await _repository.markAllAsRead();
     } catch (e) {
       AppUtils.showSnackbar(
