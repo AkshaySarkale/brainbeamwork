@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'product_details_controller.dart';
 import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_colors.dart';
+import '../../../core/widgets/shimmer_loading.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
   const ProductDetailsView({super.key});
@@ -15,7 +16,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const ProductDetailsShimmer();
         }
         if (controller.errorMessage.value.isNotEmpty) {
           return Center(child: Text(controller.errorMessage.value));
