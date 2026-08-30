@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "211107409321",
+    "project_id": "shopora-2864c",
+    "storage_bucket": "shopora-2864c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211107409321:android:a365cb4a3ca6bd50ed28b8",
+        "android_client_info": {
+          "package_name": "com.example.cartly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9Q28m9VpjAj_mwANfrlxqGxRXYeb2iKw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

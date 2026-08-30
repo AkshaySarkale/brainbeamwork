@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
+import '../../core/services/firebase_service.dart';
+import '../../features/auth/auth_binding.dart';
 
 class InitialBinding extends Bindings {
   @override
   void dependencies() {
-    // Inject global dependencies here later (e.g., ApiClient, AuthService)
+    Get.put(FirebaseService(), permanent: true);
+    AuthBinding().dependencies();
   }
 }

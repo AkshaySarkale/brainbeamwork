@@ -1,13 +1,11 @@
 import 'package:get/get.dart';
 import '../../data/repositories/category_repository.dart';
-import '../../data/repositories/product_repository.dart';
-import '../category/category_controller.dart';
+import 'category_controller.dart';
 
-class HomeBinding extends Bindings {
+class CategoryBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<CategoryRepository>(() => CategoryRepository(), fenix: true);
-    Get.lazyPut<ProductRepository>(() => ProductRepository(), fenix: true);
     Get.lazyPut<CategoryController>(() => CategoryController(), fenix: true);
   }
 }
