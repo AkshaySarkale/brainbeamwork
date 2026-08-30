@@ -6,13 +6,7 @@ The application demonstrates a complete basic shopping flow with Firebase Authen
 
 ---
 
-## 📱 App Preview
 
-<p align="center">
-  <img src="assets/demo.gif" alt="App Demo Video" width="300" />
-</p>
-
----
 
 ## 📋 Project Overview
 
@@ -304,6 +298,11 @@ Order History
 
 ## 📸 App Demo
 
+<p align="center">
+  <img src="assets/demo.mp4" alt="App Demo Video" width="300" />
+</p>
+
+---
 
 ### Prerequisites
 
