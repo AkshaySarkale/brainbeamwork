@@ -6,6 +6,14 @@ The application demonstrates a complete basic shopping flow with Firebase Authen
 
 ---
 
+## 📱 App Preview
+
+<p align="center">
+  <img src="assets/demo.gif" alt="App Demo Video" width="300" />
+</p>
+
+---
+
 ## 📋 Project Overview
 
 Shopora provides a simple and user-friendly shopping experience where users can:
@@ -297,14 +305,6 @@ Order History
 ## 📸 App Demo
 
 
-### 👤 Profile & Notifications
-
-![Profile & Notifications Demo](screenshots/profile-notifications.gif)
-
----
-
-## ⚙️ Installation & Setup
-
 ### Prerequisites
 
 Make sure the following are installed:
@@ -326,7 +326,7 @@ flutter doctor
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/AkshaySarkale/brainbeamwork.git
 ```
 
 Navigate to the project:
