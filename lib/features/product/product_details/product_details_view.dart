@@ -4,6 +4,8 @@ import 'product_details_controller.dart';
 import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../core/widgets/shimmer_loading.dart';
+import '../../cart/cart_controller.dart';
+import '../../wishlist/wishlist_controller.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
   const ProductDetailsView({super.key});
@@ -13,6 +15,21 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
+        actions: [
+          Obx(() {
+            if (controller.product.value == null) return const SizedBox.shrink();
+            final product = controller.product.value!;
+            final wishlistCtrl = Get.find<WishlistController>();
+            final isFav = wishlistCtrl.isWishlisted(product.id);
+            return IconButton(
+              icon: Icon(
+                isFav ? Icons.favorite : Icons.favorite_border,
+                color: isFav ? Colors.red : Colors.black54,
+              ),
+              onPressed: () => wishlistCtrl.toggleWishlist(product),
+            );
+          }),
+        ],
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -121,15 +138,24 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       }),
       bottomNavigationBar: Obx(() {
         if (controller.product.value == null) return const SizedBox.shrink();
+        
+        final cartController = Get.find<CartController>();
+            
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
-            onPressed: controller.product.value!.stock > 0 ? () {
-              Get.snackbar('Coming Soon', 'Cart functionality will be implemented in Step 5.', snackPosition: SnackPosition.BOTTOM);
+            onPressed: controller.product.value!.stock > 0 ? () async {
+              await cartController.addToCart(controller.product.value!);
             } : null,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Text('Add to Cart'),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: cartController.isUpdating.value
+                ? const SizedBox(
+                    height: 20, 
+                    width: 20, 
+                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
+                  )
+                : const Text('Add to Cart'),
             ),
           ),
         );

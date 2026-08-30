@@ -4,6 +4,9 @@ import '../../app/theme/app_text_styles.dart';
 import '../../core/constants/app_constants.dart';
 import '../auth/auth_controller.dart';
 import '../category/category_controller.dart';
+import '../cart/cart_controller.dart';
+import '../wishlist/wishlist_controller.dart';
+import '../profile/profile_controller.dart';
 import '../../data/repositories/product_repository.dart';
 import '../../data/models/product_model.dart';
 import '../../core/widgets/product_card.dart';
@@ -54,8 +57,65 @@ class _HomeViewState extends State<HomeView> {
         title: const Text(AppConstants.appName),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => auth.logout(),
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(Icons.favorite_border),
+                Obx(() {
+                  final wishlistCtrl = Get.find<WishlistController>();
+                  if (wishlistCtrl.wishlistItems.isEmpty) return const SizedBox.shrink();
+                  return Positioned(
+                    right: -4,
+                    top: -4,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                      constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                      child: Text(
+                        '${wishlistCtrl.wishlistItems.length}',
+                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
+            onPressed: () => Get.toNamed(AppRoutes.wishlist),
+          ),
+          IconButton(
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(Icons.shopping_cart),
+                Obx(() {
+                  final cartController = Get.find<CartController>();
+                  if (cartController.totalItemCount == 0) return const SizedBox.shrink();
+                  return Positioned(
+                    right: -4,
+                    top: -4,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                      child: Text(
+                        '${cartController.totalItemCount}',
+                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
+            onPressed: () => Get.toNamed(AppRoutes.cart),
+          ),
+          IconButton(
+            icon: const Icon(Icons.person_outline),
+            onPressed: () => Get.toNamed(AppRoutes.profile),
           ),
         ],
       ),
@@ -65,10 +125,15 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Obx(() => Text(
-                'Hi, ${auth.firebaseUser.value?.email?.split('@').first ?? 'Guest'}',
-                style: AppTextStyles.heading1,
-              )),
+              Obx(() {
+                final profileCtrl = Get.find<ProfileController>();
+                final name = profileCtrl.userModel.value?.name ?? auth.firebaseUser.value?.displayName;
+                final display = (name != null && name.isNotEmpty) ? name : 'Guest';
+                return Text(
+                  'Good morning, $display 👋',
+                  style: AppTextStyles.heading1,
+                );
+              }),
               const SizedBox(height: 16),
               GestureDetector(
                 onTap: () => Get.toNamed(AppRoutes.products),

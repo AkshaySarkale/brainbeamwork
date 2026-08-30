@@ -4,6 +4,7 @@ class UserModel {
   final String uid;
   final String name;
   final String email;
+  final String? phone;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -11,6 +12,7 @@ class UserModel {
     required this.uid,
     required this.name,
     required this.email,
+    this.phone,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -21,18 +23,23 @@ class UserModel {
       uid: data['uid'] ?? '',
       name: data['name'] ?? '',
       email: data['email'] ?? '',
+      phone: data['phone'],
       createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
       updatedAt: (data['updatedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 
   Map<String, dynamic> toFirestore() {
-    return {
+    final map = {
       'uid': uid,
       'name': name,
       'email': email,
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': Timestamp.fromDate(updatedAt),
     };
+    if (phone != null) {
+      map['phone'] = phone!;
+    }
+    return map;
   }
 }

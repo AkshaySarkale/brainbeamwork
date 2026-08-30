@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../app/routes/app_routes.dart';
 import '../../data/models/product_model.dart';
 import '../../app/theme/app_colors.dart';
+import '../../features/wishlist/wishlist_controller.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
@@ -19,16 +20,43 @@ class ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Container(
-                color: Colors.white,
-                width: double.infinity,
-                child: Image.network(
-                  product.thumbnail.isNotEmpty ? product.thumbnail : (product.images.isNotEmpty ? product.images.first : ''),
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Center(child: Icon(Icons.image_not_supported, color: Colors.grey, size: 40));
-                  },
-                ),
+              child: Stack(
+                children: [
+                  Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    child: Image.network(
+                      product.thumbnail.isNotEmpty ? product.thumbnail : (product.images.isNotEmpty ? product.images.first : ''),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(child: Icon(Icons.image_not_supported, color: Colors.grey, size: 40));
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: Obx(() {
+                      final wishlistCtrl = Get.find<WishlistController>();
+                      final isFav = wishlistCtrl.isWishlisted(product.id);
+                      return GestureDetector(
+                        onTap: () => wishlistCtrl.toggleWishlist(product),
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                            color: Colors.white70,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            isFav ? Icons.favorite : Icons.favorite_border,
+                            color: isFav ? Colors.red : Colors.grey.shade600,
+                            size: 20,
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ],
               ),
             ),
             Padding(
